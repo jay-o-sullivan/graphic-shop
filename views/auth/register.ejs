@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - GraphicShop</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <%- include('../partials/header') %>
+
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>Create an Account</h1>
+        <p>Join GraphicShop to order custom designs and manage your projects</p>
+      </div>
+    </section>
+
+    <section class="auth-section">
+      <div class="container">
+        <div class="form-container">
+          <form id="registerForm" action="/auth/register" method="POST" data-validate>
+            <div id="formMessage" class="message"></div>
+
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" minlength="6" required>
+              <small class="form-helper">Password must be at least 6 characters long</small>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password</label>
+              <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+
+            <div class="form-group checkbox-group">
+              <input type="checkbox" id="termsAgreement" name="termsAgreement" required>
+              <label for="termsAgreement">I agree to the <a href="/terms-of-service" target="_blank">Terms of Service</a> and <a href="/privacy-policy" target="_blank">Privacy Policy</a></label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+          </form>
+
+          <div class="auth-links">
+            <p>Already have an account? <a href="/auth/login">Login</a></p>
+          </div>
+
+          <div class="auth-separator">
+            <span>OR</span>
+          </div>
+
+          <div class="social-auth">
+            <button class="btn btn-social btn-google">
+              <i class="fab fa-google"></i> Continue with Google
+            </button>
+            <button class="btn btn-social btn-facebook">
+              <i class="fab fa-facebook-f"></i> Continue with Facebook
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script src="/js/main.js"></script>
+  <script>
+    // Handle form submission with AJAX
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formMessage = document.getElementById('formMessage');
+      formMessage.textContent = '';
+      formMessage.className = 'message';
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      // Validate passwords match
+      if (password !== confirmPassword) {
+        formMessage.textContent = 'Passwords do not match';
+        formMessage.classList.add('error');
+        return;
+      }
+
+      try {
+        const response = await fetch('/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name, email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          formMessage.textContent = data.message;
+          formMessage.classList.add('success');
+
+          // Redirect after successful registration
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 1500);
+        } else {
+          formMessage.textContent = data.message;
+          formMessage.classList.add('error');
+        }
+      } catch (err) {
+        formMessage.textContent = 'An error occurred. Please try again.';
+        formMessage.classList.add('error');
+        console.error('Registration error:', err);
+      }
+    });
+
+    // Password confirmation validation
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+
+    function validatePasswordMatch() {
+      if (confirmPassword.value && password.value !== confirmPassword.value) {
+        confirmPassword.setCustomValidity('Passwords do not match');
+      } else {
+        confirmPassword.setCustomValidity('');
+      }
+    }
+
+    password.addEventListener('change', validatePasswordMatch);
+    confirmPassword.addEventListener('keyup', validatePasswordMatch);
+  </script>
+</body>
+</html>

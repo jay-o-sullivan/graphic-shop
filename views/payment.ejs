@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete Your Payment - GraphicShop</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>Complete Your Payment</h1>
+        <p>You're just one step away from getting your custom design!</p>
+      </div>
+    </section>
+
+    <section class="payment-section">
+      <div class="container">
+        <div class="form-container">
+          <div class="order-summary">
+            <h2>Order Summary</h2>
+            <div class="order-details">
+              <p><strong>Design Type:</strong> <%= order.designType %></p>
+              <p><strong>Size:</strong> <%= order.size %></p>
+              <p><strong>Total:</strong> $<%= order.price.toFixed(2) %></p>
+            </div>
+          </div>
+
+          <form id="payment-form">
+            <div class="form-group">
+              <label for="nameOnCard">Name on Card</label>
+              <input type="text" id="nameOnCard" name="nameOnCard" required>
+            </div>
+
+            <div class="form-group">
+              <label for="card-element">Credit or Debit Card</label>
+              <div id="card-element" class="stripe-element"></div>
+              <div id="paymentError" class="error-message"></div>
+            </div>
+
+            <button id="paymentButton" type="submit" class="btn btn-primary btn-full">Pay $<%= order.price.toFixed(2) %></button>
+          </form>
+
+          <div class="payment-info">
+            <h3>Secure Payment</h3>
+            <p>Your payment information is encrypted and secure. We use Stripe to process payments and never store your card details.</p>
+            <div class="payment-icons">
+              <img src="/images/visa.png" alt="Visa">
+              <img src="/images/mastercard.png" alt="Mastercard">
+              <img src="/images/amex.png" alt="American Express">
+              <img src="/images/discover.png" alt="Discover">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script>
+    // Pass server data to client-side JavaScript
+    const stripePublicKey = '<%= process.env.STRIPE_PUBLIC_KEY %>';
+    const clientSecret = '<%= clientSecret %>';
+    const orderId = '<%= order._id %>';
+  </script>
+  <script src="/js/payment.js"></script>
+</body>
+</html>

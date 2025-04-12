@@ -1,0 +1,42 @@
+GraphicShop - Setup Instructions
+===============================
+
+GraphicShop requires Node.js to run. Please follow these instructions
+to set up and run the application:
+
+1. INSTALL NODE.JS
+-----------------
+Node.js is required to run GraphicShop. You have two options:
+
+OPTION A (Recommended): Use the automatic installer
+- Double-click on "install_nodejs.bat" in this folder
+- Follow the prompts to download and install Node.js
+- Restart your computer when installation is complete
+
+OPTION B: Manual installation
+- Visit https://nodejs.org/ in your web browser
+- Download the LTS (Long Term Support) version
+- Run the installer and follow the prompts
+- Select the option to add Node.js to your PATH
+- Restart your computer when installation is complete
+
+2. RUN GRAPHICSHOP
+-----------------
+After installing Node.js and restarting your computer:
+
+OPTION A: Using the helper script
+- Double-click on "run_without_nodejs.py" in this folder
+- This script will check for Node.js, install dependencies, and start the application
+- It will automatically open GraphicShop in your web browser
+
+OPTION B: Using Command Prompt
+- Press Win+R, type "cmd" and press Enter
+- Navigate to the GraphicShop directory:
+  cd E:\code\graphic-shop
+- Install dependencies (first time only):
+  npm install
+- Start the application:
+  node server.js
+- Open http://localhost:3000 in your web browser
+
+If you encounter any issues, please refer to the documentation or contact support.

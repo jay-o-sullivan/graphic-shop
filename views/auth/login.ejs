@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - GraphicShop</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <%- include('../partials/header') %>
+
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <h1>Login</h1>
+        <p>Access your account to manage orders and view your designs</p>
+      </div>
+    </section>
+
+    <section class="auth-section">
+      <div class="container">
+        <div class="form-container">
+          <form id="loginForm" action="/auth/login" method="POST" data-validate>
+            <div id="formMessage" class="message"></div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">Login</button>
+          </form>
+
+          <div class="auth-links">
+            <p>Don't have an account? <a href="/auth/register">Register</a></p>
+            <p><a href="/auth/forgot-password">Forgot your password?</a></p>
+          </div>
+
+          <div class="auth-separator">
+            <span>OR</span>
+          </div>
+
+          <div class="social-auth">
+            <button class="btn btn-social btn-google">
+              <i class="fab fa-google"></i> Continue with Google
+            </button>
+            <button class="btn btn-social btn-facebook">
+              <i class="fab fa-facebook-f"></i> Continue with Facebook
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <%- include('../partials/footer') %>
+
+  <script src="/js/main.js"></script>
+  <script>
+    // Handle form submission with AJAX
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formMessage = document.getElementById('formMessage');
+      formMessage.textContent = '';
+      formMessage.className = 'message';
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const response = await fetch('/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          formMessage.textContent = data.message;
+          formMessage.classList.add('success');
+
+          // Redirect after successful login
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 1000);
+        } else {
+          formMessage.textContent = data.message;
+          formMessage.classList.add('error');
+        }
+      } catch (err) {
+        formMessage.textContent = 'An error occurred. Please try again.';
+        formMessage.classList.add('error');
+        console.error('Login error:', err);
+      }
+    });
+  </script>
+</body>
+</html>

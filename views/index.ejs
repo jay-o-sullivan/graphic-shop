@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Professional graphic design services for logos, icons, posters, banners, and illustrations. Get custom designs tailored to your needs.">
+  <title>Graphic Shop - Professional Design Services</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Open Graph tags for social sharing -->
+  <meta property="og:title" content="Graphic Shop - Professional Design Services">
+  <meta property="og:description" content="Custom graphic design services for your business needs. Logos, icons, posters, and more.">
+  <meta property="og:image" content="/images/og-image.jpg">
+  <meta property="og:url" content="https://yourgraphicshop.com">
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Professional Graphic Design Services</h1>
+        <p>Custom designs tailored to your unique needs</p>
+        <div class="hero-buttons">
+          <a href="/portfolio" class="btn btn-primary">View Portfolio</a>
+          <a href="/orders/quote" class="btn btn-secondary">Get a Quote</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="services">
+      <div class="container">
+        <h2>Our Services</h2>
+        <div class="services-grid">
+          <div class="service-card">
+            <img src="/images/logo-design.jpg" alt="Logo Design">
+            <h3>Logo Design</h3>
+            <p>Unforgettable logos that represent your brand's identity</p>
+          </div>
+          <div class="service-card">
+            <img src="/images/icon-design.jpg" alt="Icon Design">
+            <h3>Icon Design</h3>
+            <p>Sleek, modern icons for your apps and websites</p>
+          </div>
+          <div class="service-card">
+            <img src="/images/poster-design.jpg" alt="Poster Design">
+            <h3>Poster Design</h3>
+            <p>Eye-catching posters that demand attention</p>
+          </div>
+          <div class="service-card">
+            <img src="/images/banner-design.jpg" alt="Banner Design">
+            <h3>Banner Design</h3>
+            <p>Effective banners for digital and print marketing</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="featured-work">
+      <div class="container">
+        <h2>Featured Work</h2>
+        <div class="portfolio-grid">
+          <!-- Loop through featured portfolio items -->
+          <% featuredItems.forEach(item => { %>
+            <a href="/portfolio/<%= item._id %>" class="portfolio-item">
+              <img src="<%= item.imageUrl %>" alt="<%= item.title %>">
+              <div class="portfolio-overlay">
+                <h3><%= item.title %></h3>
+                <p><%= item.category %></p>
+              </div>
+            </a>
+          <% }); %>
+        </div>
+        <div class="text-center">
+          <a href="/portfolio" class="btn btn-primary">View All Work</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials">
+      <div class="container">
+        <h2>What Our Clients Say</h2>
+        <div class="testimonial-slider">
+          <!-- Loop through testimonials -->
+          <% testimonials.forEach(testimonial => { %>
+            <div class="testimonial-item">
+              <div class="testimonial-content">
+                <p>"<%= testimonial.testimonial.content %>"</p>
+                <div class="testimonial-rating">
+                  <% for(let i = 0; i < 5; i++) { %>
+                    <span class="star <%= i < testimonial.testimonial.rating ? 'filled' : '' %>">★</span>
+                  <% } %>
+                </div>
+              </div>
+              <div class="testimonial-author">
+                <p><strong><%= testimonial.testimonial.clientName %></strong></p>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <h2>Ready to Get Started?</h2>
+        <p>Let's bring your vision to life with professional graphic design.</p>
+        <a href="/orders/quote" class="btn btn-cta">Get Your Free Quote</a>
+      </div>
+    </section>
+
+    <section class="process">
+      <div class="container">
+        <h2>Our Design Process</h2>
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="step-number">1</div>
+            <h3>Consultation</h3>
+            <p>Fill out our detailed brief form so we understand your needs</p>
+          </div>
+          <div class="process-step">
+            <div class="step-number">2</div>
+            <h3>Concept Development</h3>
+            <p>We create initial design concepts based on your requirements</p>
+          </div>
+          <div class="process-step">
+            <div class="step-number">3</div>
+            <h3>Refinement</h3>
+            <p>Based on your feedback, we refine the chosen concept</p>
+          </div>
+          <div class="process-step">
+            <div class="step-number">4</div>
+            <h3>Delivery</h3>
+            <p>Receive your final design in multiple formats for your use</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq">
+      <div class="container">
+        <h2>Frequently Asked Questions</h2>
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-header">How long does the design process take?</button>
+            <div class="accordion-content">
+              <p>Typically, our design process takes 3-7 business days depending on the complexity of the project and current workload. We'll provide you with an estimated timeline when you place your order.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">What file formats will I receive?</button>
+            <div class="accordion-content">
+              <p>We provide designs in multiple formats depending on your needs, including AI, PSD, PDF, PNG, and JPG. If you need a specific format, just let us know in your order requirements.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">How many revisions do I get?</button>
+            <div class="accordion-content">
+              <p>Our standard packages include 2 rounds of revisions. Additional revisions can be purchased if needed.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">Do you offer refunds?</button>
+            <div class="accordion-content">
+              <p>We're committed to your satisfaction. If you're not happy with the initial concepts, we'll work with you to address your concerns. Refunds are considered on a case-by-case basis.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script src="/js/main.js"></script>
+  <script>
+    // Initialize the featured items and testimonials carousel when available
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof initCarousels === 'function') {
+        initCarousels();
+      }
+    });
+  </script>
+</body>
+</html>

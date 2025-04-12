@@ -1,0 +1,52 @@
+GRAPHICSHOP - TERMINAL USAGE GUIDE
+=================================
+
+This guide explains how to run GraphicShop using Command Prompt or PowerShell.
+
+INSTALLING DEPENDENCIES
+----------------------
+1. Open Command Prompt or PowerShell
+2. Navigate to the project directory:
+   cd e:\code\graphic-shop
+3. Run the installer script:
+   install-dependencies.bat
+
+STARTING THE APPLICATION
+-----------------------
+1. Open Command Prompt or PowerShell
+2. Navigate to the project directory:
+   cd e:\code\graphic-shop
+3. Start the server with:
+   node server.js
+4. Open your browser and go to:
+   http://localhost:3000
+5. To stop the server, press:
+   Ctrl+C
+
+COMMON COMMANDS
+--------------
+• Install dependencies:
+  npm install
+
+• Start the server:
+  node server.js
+
+• Start with automatic reloading (if nodemon is installed):
+  npx nodemon server.js
+
+• Initialize database (if applicable):
+  node scripts/init-db.js
+
+TROUBLESHOOTING
+--------------
+• "node is not recognized":
+  - Make sure Node.js is installed
+  - Restart your terminal/computer
+
+• Port already in use:
+  - Check if GraphicShop is already running in another window
+  - Change the port in .env file
+
+• Database connection errors:
+  - Verify database settings in .env file
+  - Ensure database server is running

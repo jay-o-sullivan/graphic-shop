@@ -1,0 +1,26 @@
+<header>
+  <div class="container header-container">
+    <a href="/" class="logo">GraphicShop</a>
+
+    <button class="mobile-menu-btn">☰</button>
+
+    <ul class="nav-links">
+      <li><a href="/" class="<%= typeof activePage !== 'undefined' && activePage === 'home' ? 'active' : '' %>">Home</a></li>
+      <li><a href="/portfolio" class="<%= typeof activePage !== 'undefined' && activePage === 'portfolio' ? 'active' : '' %>">Portfolio</a></li>
+      <li><a href="/services" class="<%= typeof activePage !== 'undefined' && activePage === 'services' ? 'active' : '' %>">Services</a></li>
+      <li><a href="/orders/quote" class="<%= typeof activePage !== 'undefined' && activePage === 'quote' ? 'active' : '' %>">Get a Quote</a></li>
+      <li><a href="/about" class="<%= typeof activePage !== 'undefined' && activePage === 'about' ? 'active' : '' %>">About</a></li>
+      <li><a href="/contact" class="<%= typeof activePage !== 'undefined' && activePage === 'contact' ? 'active' : '' %>">Contact</a></li>
+      <% if (typeof user !== 'undefined' && user) { %>
+        <li><a href="/orders/my-orders" class="<%= typeof activePage !== 'undefined' && activePage === 'my-orders' ? 'active' : '' %>">My Orders</a></li>
+        <% if (user.role === 'admin') { %>
+          <li><a href="/admin/dashboard" class="<%= typeof activePage !== 'undefined' && activePage === 'admin' ? 'active' : '' %>">Admin</a></li>
+        <% } %>
+        <li><a href="/auth/logout">Logout</a></li>
+      <% } else { %>
+        <li><a href="/auth/login" class="<%= typeof activePage !== 'undefined' && activePage === 'login' ? 'active' : '' %>">Login</a></li>
+        <li><a href="/auth/register" class="<%= typeof activePage !== 'undefined' && activePage === 'register' ? 'active' : '' %>">Register</a></li>
+      <% } %>
+    </ul>
+  </div>
+</header>

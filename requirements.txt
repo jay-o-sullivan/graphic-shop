@@ -1,0 +1,30 @@
+# GraphicShop Dependencies - NODE.JS PACKAGES
+# NOTE: Do NOT use "pip install" with this file!
+# These are Node.js packages which must be installed with npm.
+
+# To install these dependencies, run:
+# npm install express sequelize mysql2 pg bcryptjs jsonwebtoken ejs multer helmet compression cookie-parser stripe nodemailer dotenv
+# npm install --save-dev nodemon
+
+# Core packages
+express
+sequelize
+mysql2
+pg
+bcryptjs
+jsonwebtoken
+
+# Web-related packages
+ejs
+multer
+helmet
+compression
+cookie-parser
+
+# Payment and email
+stripe
+nodemailer
+dotenv
+
+# Developer tools
+nodemon
