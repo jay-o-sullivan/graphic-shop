@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.graphicshop.com/sitemap.xml
+
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /user/
+Disallow: /api/

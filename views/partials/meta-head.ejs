@@ -1,0 +1,46 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<!-- Primary Meta Tags -->
+<title><%= meta.title %> | GraphicShop</title>
+<meta name="title" content="<%= meta.title %> | GraphicShop">
+<meta name="description" content="<%= meta.description %>">
+<meta name="keywords" content="<%= meta.keywords %>">
+<meta name="author" content="GraphicShop">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="<%= BASE_URL %><%= meta.url %>">
+<meta property="og:title" content="<%= meta.title %> | GraphicShop">
+<meta property="og:description" content="<%= meta.description %>">
+<meta property="og:image" content="<%= BASE_URL %><%= meta.image %>">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="<%= BASE_URL %><%= meta.url %>">
+<meta property="twitter:title" content="<%= meta.title %> | GraphicShop">
+<meta property="twitter:description" content="<%= meta.description %>">
+<meta property="twitter:image" content="<%= BASE_URL %><%= meta.image %>">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="<%= BASE_URL %><%= meta.url %>">
+
+<!-- Favicon -->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+
+<!-- Stylesheets -->
+<link rel="stylesheet" href="/css/main.css">
+<% if (meta.styles) { %>
+  <% meta.styles.forEach(function(style) { %>
+    <link rel="stylesheet" href="<%= style %>">
+  <% }); %>
+<% } %>

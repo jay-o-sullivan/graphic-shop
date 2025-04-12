@@ -6,7 +6,8 @@ Write-Host
 try {
     $gitVersion = git --version
     Write-Host "Git is installed: $gitVersion" -ForegroundColor Green
-} catch {
+}
+catch {
     Write-Host "ERROR: Git is not installed or not in your PATH." -ForegroundColor Red
     Write-Host "Please install Git from https://git-scm.com/downloads" -ForegroundColor Yellow
     Write-Host
@@ -49,7 +50,8 @@ $remoteExists = git remote -v | Select-String "origin" -Quiet
 if (-not $remoteExists) {
     Write-Host "Adding remote origin..." -ForegroundColor Yellow
     git remote add origin $repoUrl
-} else {
+}
+else {
     Write-Host "Remote origin already exists. Updating..." -ForegroundColor Yellow
     git remote set-url origin $repoUrl
 }

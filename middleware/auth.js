@@ -1,42 +1,73 @@
 const jwt = require('jsonwebtoken');
+const { User } = require('../models');
 
-// Middleware to authenticate user
-exports.authenticateUser = (req, res, next) => {
+exports.authenticateUser = async (req, res, next) => {
   try {
-    const token = req.cookies.token;
+    // Get token from cookie or authorization header
+    let token;
+
+    if (req.cookies && req.cookies.token) {
+      token = req.cookies.token;
+    } else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      token = req.headers.authorization.split(' ')[1];
+    }
 
     if (!token) {
       if (req.xhr) {
-        return res.status(401).json({ message: 'Authentication required' });
+        return res.status(401).json({ message: 'Not authorized, please login' });
+      }
+      return res.redirect('/auth/login?redirect=' + encodeURIComponent(req.originalUrl));
+    }
+
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Check if user still exists
+    const user = await User.findByPk(decoded.id);
+
+    if (!user) {
+      res.clearCookie('token');
+      if (req.xhr) {
+        return res.status(401).json({ message: 'Not authorized, please login' });
       }
       return res.redirect('/auth/login');
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
+    // Add user to request
+    req.user = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role
+    };
+
     next();
-  } catch (err) {
+  } catch (error) {
     res.clearCookie('token');
     if (req.xhr) {
-      res.status(401).json({ message: 'Invalid token', error: err.message });
-    } else {
-      res.redirect('/auth/login');
+      return res.status(401).json({ message: 'Not authorized, please login' });
     }
+    return res.redirect('/auth/login');
   }
 };
 
-// Middleware to check admin role
-exports.isAdmin = (req, res, next) => {
-  if (req.user && req.user.role === 'admin') {
-    return next();
-  }
+exports.authorizeRoles = (...roles) => {
+  return (req, res, next) => {
+    if (!req.user || !roles.includes(req.user.role)) {
+      if (req.xhr) {
+        return res.status(403).json({ message: 'Not authorized to access this resource' });
+      }
+      return res.render('errors/403', {
+        title: 'Access Denied',
+        message: 'You do not have permission to access this resource.'
+      });
+    }
+    next();
+  };
+};
 
-  if (req.xhr) {
-    res.status(403).json({ message: 'Access denied: Admin privileges required' });
-  } else {
-    res.status(403).render('error', {
-      error: { message: 'Access denied: Admin privileges required' },
-      activePage: null
-    });
-  }
+exports.csrfProtection = (req, res, next) => {
+  // Implement CSRF protection
+  // This is a placeholder - you should use a library like csurf
+  next();
 };

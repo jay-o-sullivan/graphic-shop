@@ -1,0 +1,42 @@
+<div class="social-share">
+  <p>Share this:</p>
+  <div class="share-buttons">
+    <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(BASE_URL + currentUrl) %>"
+       target="_blank"
+       rel="noopener"
+       aria-label="Share on Facebook"
+       class="share-button facebook">
+      <i class="fab fa-facebook-f"></i>
+    </a>
+
+    <a href="https://twitter.com/intent/tweet?url=<%= encodeURIComponent(BASE_URL + currentUrl) %>&text=<%= encodeURIComponent(pageTitle) %>"
+       target="_blank"
+       rel="noopener"
+       aria-label="Share on Twitter"
+       class="share-button twitter">
+      <i class="fab fa-twitter"></i>
+    </a>
+
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=<%= encodeURIComponent(BASE_URL + currentUrl) %>&title=<%= encodeURIComponent(pageTitle) %>"
+       target="_blank"
+       rel="noopener"
+       aria-label="Share on LinkedIn"
+       class="share-button linkedin">
+      <i class="fab fa-linkedin-in"></i>
+    </a>
+
+    <a href="https://pinterest.com/pin/create/button/?url=<%= encodeURIComponent(BASE_URL + currentUrl) %>&media=<%= encodeURIComponent(BASE_URL + pageImage) %>&description=<%= encodeURIComponent(pageTitle) %>"
+       target="_blank"
+       rel="noopener"
+       aria-label="Pin on Pinterest"
+       class="share-button pinterest">
+      <i class="fab fa-pinterest-p"></i>
+    </a>
+
+    <a href="mailto:?subject=<%= encodeURIComponent(pageTitle) %>&body=<%= encodeURIComponent('Check out this page: ' + BASE_URL + currentUrl) %>"
+       aria-label="Share via Email"
+       class="share-button email">
+      <i class="fas fa-envelope"></i>
+    </a>
+  </div>
+</div>
