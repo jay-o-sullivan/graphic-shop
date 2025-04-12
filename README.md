@@ -68,4 +68,3 @@ A professional graphic design services platform built with Node.js, Express, and
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
