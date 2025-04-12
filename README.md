@@ -1,31 +1,13 @@
-# GraphicShop - Freelance Graphic Design Service Platform
+# GraphicShop
 
-GraphicShop is a full-featured web application for selling graphic design services. Clients can browse a portfolio, request quotes, place orders for custom designs, and make payments. Designers can manage orders, upload completed work, and build their portfolio.
+A professional graphic design services platform built with Node.js, Express, and EJS.
 
 ## Features
 
-- User authentication (register, login, password reset)
 - Portfolio showcase with categorized design examples
-- Automated price calculator
-- Secure payment processing with Stripe
-- Order management system
-- Admin dashboard for managing orders and portfolio
-- Email notifications
-- Responsive design for all device sizes
-
-## Tech Stack
-
-- Backend: Node.js with Express
-- Frontend: HTML, CSS, JavaScript, EJS templates
-- Database: MySQL with Sequelize ORM
-- Payment Processing: Stripe
-- Email Service: Nodemailer
-
-## Prerequisites
-
-- Node.js (v14 or higher)
-- MySQL (v5.7 or higher)
-- npm (v6 or higher)
+- Service descriptions and pricing
+- Request quote functionality
+- Responsive design for all screen sizes
 
 ## Installation
 
@@ -35,64 +17,54 @@ GraphicShop is a full-featured web application for selling graphic design servic
    cd graphic-shop
    ```
 
-2. Create a MySQL database:
-   ```sql
-   CREATE DATABASE graphic_shop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+2. Install dependencies:
+   ```
+   npm install
    ```
 
-3. Copy the example environment file and update it with your settings:
+3. Create a `.env` file in the root directory with the following variables:
    ```
-   cp .env.example .env
+   PORT=3000
+   DB_HOST=localhost
+   DB_NAME=graphicshop
+   DB_USER=root
+   DB_PASSWORD=
+   JWT_SECRET=your_jwt_secret_key_here
+   STRIPE_PUBLIC_KEY=your_stripe_public_key
+   STRIPE_SECRET_KEY=your_stripe_secret_key
+   EMAIL_HOST=smtp.example.com
+   EMAIL_PORT=587
+   EMAIL_USER=your_email@example.com
+   EMAIL_PASS=your_email_password
+   BASE_URL=http://localhost:3000
    ```
-   Edit `.env` with your database credentials, Stripe API keys, etc.
 
-4. Run the setup script to install dependencies, fetch sample images, and initialize the database:
+4. Start the application:
    ```
-   npm run setup
-   ```
-
-5. Start the application:
-   ```
-   npm start
+   node server.js
    ```
 
-6. Access the application at http://localhost:3000
+5. Open your browser and visit `http://localhost:3000`
 
-## Development
+## Technologies Used
 
-For development with automatic reloading:
-```
-npm run dev
-```
-
-## Admin Access
-
-After running the initialization script, you can log in as admin with:
-- Email: admin@graphicshop.com
-- Password: admin123 (or the value you set in ADMIN_INITIAL_PASSWORD in your .env file)
+- Node.js
+- Express
+- EJS Templates
+- Sequelize (ORM)
+- MySQL/PostgreSQL
+- Stripe Payment Processing
+- Nodemailer
 
 ## Project Structure
 
-```
-graphic-shop/
-├── config/           # Configuration files
-├── models/           # Database models
-├── public/           # Static assets
-│   ├── css/          # CSS stylesheets
-│   ├── js/           # Client-side JavaScript
-│   ├── images/       # Images for the site
-│   └── uploads/      # Uploaded designs & portfolio items
-├── routes/           # Express routes
-├── scripts/          # Utility scripts
-├── utils/            # Utility functions
-├── views/            # EJS templates
-│   └── partials/     # Reusable template parts
-├── middleware/       # Express middleware
-├── .env.example      # Example environment variables
-├── package.json      # Node.js dependencies
-├── server.js         # Express application
-└── README.md         # This file
-```
+- `server.js` - Main application file
+- `models/` - Database models
+- `views/` - EJS templates
+- `routes/` - Route handlers
+- `public/` - Static assets
+- `middleware/` - Express middleware
+- `utils/` - Utility functions
 
 ## License
 

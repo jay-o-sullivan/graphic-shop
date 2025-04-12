@@ -1,146 +1,250 @@
-require('dotenv').config();
+/**
+ * GraphicShop - Main Server File
+ */
+
+// Import required modules
 const express = require('express');
 const path = require('path');
+const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
-const helmet = require('helmet');
 const compression = require('compression');
-const { Sequelize } = require('sequelize');
+const helmet = require('helmet');
 
-// Import routes
-const authRoutes = require('./routes/auth');
-const portfolioRoutes = require('./routes/portfolio');
-const orderRoutes = require('./routes/orders');
-const adminRoutes = require('./routes/admin');
+// Load environment variables
+dotenv.config();
 
+// Initialize Express app
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Initialize Sequelize with MySQL
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: 'mysql',
-    logging: process.env.NODE_ENV === 'development' ? console.log : false,
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000
-    }
-  }
-);
-
-// Test the database connection
-sequelize.authenticate()
-  .then(() => console.log('Database connection has been established successfully.'))
-  .catch(err => console.error('Unable to connect to the database:', err));
-
-// Middleware
+// Set up middleware
 app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "https://js.stripe.com", "https://kit.fontawesome.com", "'unsafe-inline'"],
-      styleSrc: ["'self'", "https://fonts.googleapis.com", "'unsafe-inline'"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://ka-f.fontawesome.com"],
-      imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'", "https://api.stripe.com"],
-      frameSrc: ["'self'", "https://js.stripe.com"]
-    }
-  }
+  contentSecurityPolicy: false, // Disabled for development
 }));
-app.use(compression());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(compression()); // Compress responses
+app.use(express.json()); // Parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(cookieParser()); // Parse cookies
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
 
-// View engine
+// Set up EJS as view engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Set global variables for views
-app.use((req, res, next) => {
-  // Get user from JWT in cookie if it exists
-  const token = req.cookies.token;
-
-  if (token) {
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decoded;
-      res.locals.user = decoded;
-    } catch (err) {
-      res.clearCookie('token');
+// Define routes
+app.get('/', (req, res) => {
+  // Create sample featured items for the homepage
+  const featuredItems = [
+    {
+      _id: 'sample1',
+      title: 'Modern Logo Design',
+      description: 'A clean, modern logo for a tech startup',
+      imageUrl: '/images/sample-logo-1.jpg',
+      category: 'logo'
+    },
+    {
+      _id: 'sample2',
+      title: 'Brand Identity Package',
+      description: 'Complete brand identity for an organic food company',
+      imageUrl: '/images/sample-logo-2.jpg',
+      category: 'branding'
+    },
+    {
+      _id: 'sample3',
+      title: 'Event Poster',
+      description: 'Eye-catching poster design for a music festival',
+      imageUrl: '/images/sample-poster-1.jpg',
+      category: 'poster'
     }
-  }
+  ];
 
-  next();
-});
-
-// Routes
-app.use('/auth', authRoutes);
-app.use('/portfolio', portfolioRoutes);
-app.use('/orders', orderRoutes);
-app.use('/admin', adminRoutes);
-
-// Home route
-app.get('/', async (req, res) => {
-  try {
-    // Get featured portfolio items
-    const featuredItems = await sequelize.models.Portfolio.findAll({
-      where: { featured: true },
-      limit: 6,
-      order: [['createdAt', 'DESC']]
-    });
-
-    // Get testimonials
-    const testimonials = await sequelize.models.Portfolio.findAll({
-      where: {
-        '$testimonial.content$': { [Sequelize.Op.ne]: null }
-      },
-      limit: 5,
-      order: [['createdAt', 'DESC']]
-    });
-
-    res.render('index', {
-      activePage: 'home',
-      featuredItems,
-      testimonials
-    });
-  } catch (err) {
-    console.error(err);
-    res.render('index', {
-      activePage: 'home',
-      featuredItems: [],
-      testimonials: []
-    });
-  }
-});
-
-// Handle 404
-app.use((req, res) => {
-  res.status(404).render('404', {
-    activePage: null
+  res.render('index', {
+    title: 'GraphicShop - Custom Design Services',
+    activePage: 'home',
+    featuredItems: featuredItems
   });
 });
 
-// Error handler
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).render('error', {
-    error: err,
-    activePage: null
+// Add portfolio routes
+app.get('/portfolio', (req, res) => {
+  // Sample portfolio items
+  const portfolioItems = [
+    {
+      _id: 'sample1',
+      title: 'Modern Logo Design',
+      description: 'A clean, modern logo for a tech startup',
+      imageUrl: '/images/sample-logo-1.jpg',
+      category: 'logo',
+      clientName: 'TechFusion'
+    },
+    {
+      _id: 'sample2',
+      title: 'Brand Identity Package',
+      description: 'Complete brand identity for an organic food company',
+      imageUrl: '/images/sample-logo-2.jpg',
+      category: 'branding',
+      clientName: 'Nature\'s Harvest'
+    },
+    {
+      _id: 'sample3',
+      title: 'Event Poster',
+      description: 'Eye-catching poster design for a music festival',
+      imageUrl: '/images/sample-poster-1.jpg',
+      category: 'poster',
+      clientName: 'SoundWave Festival'
+    },
+    {
+      _id: 'sample4',
+      title: 'Corporate Web Banners',
+      description: 'Professional web banners for a financial company',
+      imageUrl: '/images/sample-banner-1.jpg',
+      category: 'web',
+      clientName: 'Capital Investments'
+    }
+  ];
+
+  res.render('portfolio', {
+    title: 'Our Portfolio - GraphicShop',
+    activePage: 'portfolio',
+    portfolioItems: portfolioItems
   });
 });
 
-// Sync the database and start the server
-sequelize.sync({ alter: process.env.NODE_ENV === 'development' })
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  })
-  .catch(err => console.error('Unable to sync the database:', err));
+app.get('/portfolio/:id', (req, res) => {
+  // Find portfolio item by ID (in a real app, this would come from a database)
+  const id = req.params.id;
+
+  // Sample portfolio item
+  const portfolioItem = {
+    _id: id,
+    title: 'Sample Portfolio Item',
+    description: 'This is a detailed description of the portfolio item.',
+    imageUrl: '/images/sample-logo-1.jpg',
+    category: 'logo',
+    clientName: 'Sample Client',
+    process: 'Our design process involved several stages of research, sketching, and refinement.',
+    results: 'The client was extremely satisfied with the final design, which helped increase their brand recognition.',
+    testimonial: {
+      content: 'Working with GraphicShop was a pleasure. They delivered exactly what we needed and more!',
+      clientName: 'John Doe, CEO',
+      clientCompany: 'Sample Company'
+    }
+  };
+
+  res.render('portfolio-detail', {
+    title: `${portfolioItem.title} - GraphicShop Portfolio`,
+    activePage: 'portfolio',
+    item: portfolioItem
+  });
+});
+
+app.get('/services', (req, res) => {
+  // Sample services
+  const services = [
+    {
+      id: 'logo-design',
+      title: 'Logo Design',
+      description: 'Professional logo design to establish your brand identity.',
+      price: 'Starting at $299',
+      imageUrl: '/images/sample-logo-1.jpg'
+    },
+    {
+      id: 'branding',
+      title: 'Brand Identity',
+      description: 'Complete brand identity packages including logo, business cards, letterhead, and more.',
+      price: 'Starting at $599',
+      imageUrl: '/images/sample-logo-2.jpg'
+    },
+    {
+      id: 'web-graphics',
+      title: 'Web Graphics',
+      description: 'Custom graphics for your website or social media platforms.',
+      price: 'Starting at $199',
+      imageUrl: '/images/sample-banner-1.jpg'
+    },
+    {
+      id: 'print-design',
+      title: 'Print Design',
+      description: 'Brochures, flyers, posters, and other print materials designed to impress.',
+      price: 'Starting at $249',
+      imageUrl: '/images/sample-poster-1.jpg'
+    }
+  ];
+
+  res.render('services', {
+    title: 'Our Services - GraphicShop',
+    activePage: 'services',
+    services: services
+  });
+});
+
+// Create views folder and index.ejs file
+const fs = require('fs');
+const viewsDir = path.join(__dirname, 'views');
+const publicDir = path.join(__dirname, 'public');
+
+// Create directories if they don't exist
+if (!fs.existsSync(viewsDir)) {
+  fs.mkdirSync(viewsDir, { recursive: true });
+}
+
+if (!fs.existsSync(publicDir)) {
+  fs.mkdirSync(publicDir, { recursive: true });
+  fs.mkdirSync(path.join(publicDir, 'css'), { recursive: true });
+  fs.mkdirSync(path.join(publicDir, 'js'), { recursive: true });
+  fs.mkdirSync(path.join(publicDir, 'images'), { recursive: true });
+}
+
+// Create a simple index.ejs file if it doesn't exist
+const indexEjsPath = path.join(viewsDir, 'index.ejs');
+if (!fs.existsSync(indexEjsPath)) {
+  const indexContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to GraphicShop</h1>
+    <p>Your one-stop shop for professional graphic design services.</p>
+    <p>The server is running successfully! This is a placeholder page.</p>
+    <p>To continue developing the application, you'll need to:</p>
+    <ol>
+      <li>Create proper views and templates</li>
+      <li>Set up your database models</li>
+      <li>Implement authentication</li>
+      <li>Add payment processing</li>
+    </ol>
+  </div>
+</body>
+</html>
+  `;
+  fs.writeFileSync(indexEjsPath, indexContent);
+}
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
