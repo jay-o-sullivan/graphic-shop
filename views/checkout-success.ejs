@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmation - GraphicShop</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Your order has been successfully placed.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav-container">
+      <a href="/" class="logo">GraphicShop</a>
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/products">Services</a></li>
+        <li><a href="/portfolio">Portfolio</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="success-section">
+      <div class="container">
+        <div class="success-container">
+          <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+
+          <h1>Thank You for Your Order!</h1>
+          <p class="order-number">Order #<span id="order-id">GS-2023-1045</span></p>
+
+          <div class="order-details">
+            <h2>Order Summary</h2>
+
+            <div class="summary-item">
+              <span>Logo Design Package</span>
+              <span>$299.00</span>
+            </div>
+
+            <div class="summary-item">
+              <span>Rush Delivery (48hr)</span>
+              <span>$75.00</span>
+            </div>
+
+            <div class="summary-item">
+              <span>Subtotal</span>
+              <span>$374.00</span>
+            </div>
+
+            <div class="summary-item">
+              <span>Tax (6%)</span>
+              <span>$22.44</span>
+            </div>
+
+            <div class="summary-total">
+              <span>Total</span>
+              <span>$396.44</span>
+            </div>
+          </div>
+
+          <div class="next-steps">
+            <h2>What Happens Next</h2>
+            <ol>
+              <li>
+                <i class="fas fa-envelope"></i>
+                <div>
+                  <h3>Order Confirmation</h3>
+                  <p>We've sent a confirmation email to your inbox with all the details.</p>
+                </div>
+              </li>
+              <li>
+                <i class="fas fa-comments"></i>
+                <div>
+                  <h3>Requirements Gathering</h3>
+                  <p>Our team will reach out within 24 hours to discuss your project details.</p>
+                </div>
+              </li>
+              <li>
+                <i class="fas fa-pencil-alt"></i>
+                <div>
+                  <h3>Design Process</h3>
+                  <p>We'll start creating your design based on your requirements.</p>
+                </div>
+              </li>
+              <li>
+                <i class="fas fa-check"></i>
+                <div>
+                  <h3>Review & Delivery</h3>
+                  <p>You'll review the designs and we'll make revisions until you're satisfied.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+
+          <div class="account-cta">
+            <p>You can track your order status in your account dashboard.</p>
+            <a href="/dashboard" class="btn">Go to Dashboard</a>
+            <a href="/" class="btn btn-outline">Return to Home</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <div class="footer-logo">GraphicShop</div>
+          <p>Professional graphic design services for businesses of all sizes.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <h3>Services</h3>
+          <ul>
+            <li><a href="/products/logo-design">Logo Design</a></li>
+            <li><a href="/products/branding">Brand Identity</a></li>
+            <li><a href="/products/web-design">Web Graphics</a></li>
+            <li><a href="/products/print">Print Design</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h3>Company</h3>
+          <ul>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/portfolio">Our Work</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h3>Support</h3>
+          <ul>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/terms">Terms of Service</a></li>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/contact">Support</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        &copy; 2023 GraphicShop. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+
+    // Get order ID from URL
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const orderId = urlParams.get('order_id');
+      const paymentMethod = urlParams.get('payment_method');
+
+      if (orderId) {
+        document.getElementById('order-id').textContent = orderId;
+      }
+
+      // Track conversion
+      if (typeof gtag === 'function') {
+        gtag('event', 'purchase', {
+          transaction_id: orderId,
+          value: 396.44,
+          currency: 'USD',
+          payment_type: paymentMethod || 'card',
+          items: [{
+            id: 'logo-design-package',
+            name: 'Logo Design Package',
+            category: 'design',
+            quantity: 1,
+            price: 299.00
+          }]
+        });
+      }
+    });
+  </script>
+
+  <style>
+    .success-section {
+      padding: 4rem 0;
+    }
+
+    .success-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+
+    .success-icon {
+      text-align: center;
+      font-size: 5rem;
+      color: var(--success-color);
+      margin-bottom: 1.5rem;
+    }
+
+    .success-container h1 {
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .order-number {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: var(--secondary-color);
+    }
+
+    .order-details {
+      margin-bottom: 3rem;
+      padding: 1.5rem;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+    }
+
+    .order-details h2 {
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .next-steps {
+      margin-bottom: 3rem;
+    }
+
+    .next-steps h2 {
+      margin-bottom: 1.5rem;
+    }
+
+    .next-steps ol {
+      list-style: none;
+      padding: 0;
+      counter-reset: steps;
+    }
+
+    .next-steps li {
+      display: flex;
+      margin-bottom: 1.5rem;
+      align-items: flex-start;
+    }
+
+    .next-steps li i {
+      background-color: var(--primary-color);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      flex-shrink: 0;
+    }
+
+    .next-steps li div {
+      flex-grow: 1;
+    }
+
+    .next-steps h3 {
+      margin-bottom: 0.3rem;
+    }
+
+    .next-steps p {
+      margin: 0;
+      color: #666;
+    }
+
+    .account-cta {
+      text-align: center;
+    }
+
+    .account-cta p {
+      margin-bottom: 1.5rem;
+    }
+
+    .account-cta .btn {
+      margin: 0 0.5rem 1rem 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .success-section {
+        padding: 2rem 0;
+      }
+
+      .success-container {
+        padding: 1.5rem;
+      }
+
+      .success-icon {
+        font-size: 4rem;
+      }
+    }
+  </style>
+</body>
+</html>

@@ -4,148 +4,358 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title %></title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
-      color: #333;
-    }
-    header {
-      background-color: #2c3e50;
-      color: white;
-      padding: 1rem 0;
-      text-align: center;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    .hero {
-      background-color: #f4f4f4;
-      padding: 3rem 0;
-      text-align: center;
-    }
-    .hero h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-    .hero p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-      color: #666;
-    }
-    .btn {
-      display: inline-block;
-      background: #3498db;
-      color: white;
-      padding: 0.8rem 1.5rem;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-    .featured-work {
-      padding: 3rem 0;
-    }
-    .section-title {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-    }
-    .portfolio-item {
-      position: relative;
-      height: 250px;
-      overflow: hidden;
-      border-radius: 5px;
-      text-decoration: none;
-    }
-    .portfolio-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-    .portfolio-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 1rem;
-      transform: translateY(100%);
-      transition: transform 0.3s ease;
-    }
-    .portfolio-item:hover img {
-      transform: scale(1.05);
-    }
-    .portfolio-item:hover .portfolio-overlay {
-      transform: translateY(0);
-    }
-    footer {
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 1rem 0;
-      margin-top: 2rem;
-    }
-  </style>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Professional graphic design services including logo design, branding, and marketing materials.">
+  <meta name="keywords" content="graphic design, logo design, branding, print design, web graphics">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1>GraphicShop</h1>
+  <header class="header">
+    <div class="container nav-container">
+      <a href="/" class="logo">GraphicShop</a>
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links">
+        <li><a href="/" class="active">Home</a></li>
+        <li><a href="/products">Services</a></li>
+        <li><a href="/portfolio">Portfolio</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
     </div>
   </header>
 
   <section class="hero">
     <div class="container">
-      <h1>Professional Graphic Design Services</h1>
-      <p>Custom designs to elevate your brand and make an impact</p>
-      <a href="/services" class="btn">See Our Services</a>
+      <div class="hero-content">
+        <h1>Professional Graphic Design Services</h1>
+        <p>Custom designs that elevate your brand and make an impact</p>
+        <a href="/products" class="btn">Explore Our Services</a>
+      </div>
     </div>
   </section>
 
-  <section class="featured-work">
+  <section class="featured-services">
+    <div class="container">
+      <h2 class="section-title">Our Services</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-paint-brush"></i>
+          </div>
+          <h3>Logo Design</h3>
+          <p>Professional logos that represent your brand's values and identity.</p>
+          <a href="/products/logo-design" class="btn btn-outline">Learn More</a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-layer-group"></i>
+          </div>
+          <h3>Brand Identity</h3>
+          <p>Complete brand packages including logos, colors, typography and guidelines.</p>
+          <a href="/products/branding" class="btn btn-outline">Learn More</a>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-print"></i>
+          </div>
+          <h3>Print Design</h3>
+          <p>Business cards, brochures, flyers and other print materials that stand out.</p>
+          <a href="/products/print" class="btn btn-outline">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="portfolio-preview">
     <div class="container">
       <h2 class="section-title">Featured Work</h2>
-
       <div class="portfolio-grid">
-        <!-- Check if featuredItems exists before looping -->
-        <% if (typeof featuredItems !== 'undefined' && featuredItems.length > 0) { %>
-          <!-- Loop through featured portfolio items -->
-          <% featuredItems.forEach(item => { %>
-            <a href="/portfolio/<%= item._id %>" class="portfolio-item">
-              <img src="<%= item.imageUrl %>" alt="<%= item.title %>">
-              <div class="portfolio-overlay">
-                <h3><%= item.title %></h3>
-                <p><%= item.description %></p>
-              </div>
-            </a>
-          <% }); %>
-        <% } else { %>
-          <div>
-            <p>No featured work available at the moment. Please check back soon!</p>
+        <!-- Sample portfolio items -->
+        <div class="portfolio-item">
+          <img src="/images/logo-design.jpg" alt="Logo Design Example" class="portfolio-image">
+          <div class="portfolio-overlay">
+            <h3>Tech Startup Logo</h3>
+            <p>Brand Identity</p>
           </div>
-        <% } %>
+        </div>
+
+        <div class="portfolio-item">
+          <img src="/images/business-card.jpg" alt="Business Card Design" class="portfolio-image">
+          <div class="portfolio-overlay">
+            <h3>Corporate Business Card</h3>
+            <p>Print Design</p>
+          </div>
+        </div>
+
+        <div class="portfolio-item">
+          <img src="/images/social-media-pack.jpg" alt="Social Media Graphics" class="portfolio-image">
+          <div class="portfolio-overlay">
+            <h3>Instagram Template Set</h3>
+            <p>Digital Design</p>
+          </div>
+        </div>
       </div>
 
-      <div style="text-align: center; margin-top: 2rem;">
+      <div class="view-all">
         <a href="/portfolio" class="btn">View All Work</a>
       </div>
     </div>
   </section>
 
+  <section class="testimonials-section">
+    <div class="container">
+      <h2 class="section-title">What Our Clients Say</h2>
+      <div class="testimonials-slider">
+        <div class="testimonial-slide">
+          <div class="testimonial-content">
+            "GraphicShop delivered a logo that perfectly encapsulates our brand. Their process was efficient and the results exceeded our expectations."
+          </div>
+          <div class="testimonial-author">
+            <img src="/images/client-1.jpg" alt="Sarah Johnson" class="author-image">
+            <div class="author-info">
+              <h4>Sarah Johnson</h4>
+              <p>CEO, TechStart Inc.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>Ready to Get Started?</h2>
+      <p>Let's create something amazing together.</p>
+      <a href="/contact" class="btn">Contact Us</a>
+    </div>
+  </section>
+
   <footer>
     <div class="container">
-      <p>&copy; <%= new Date().getFullYear() %> GraphicShop. All rights reserved.</p>
+      <div class="footer-content">
+        <div class="footer-info">
+          <div class="footer-logo">GraphicShop</div>
+          <p>Professional graphic design services for businesses of all sizes.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <h3>Services</h3>
+          <ul>
+            <li><a href="/products/logo-design">Logo Design</a></li>
+            <li><a href="/products/branding">Brand Identity</a></li>
+            <li><a href="/products/web-design">Web Graphics</a></li>
+            <li><a href="/products/print">Print Design</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h3>Company</h3>
+          <ul>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/portfolio">Our Work</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h3>Support</h3>
+          <ul>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/terms">Terms of Service</a></li>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/contact">Support</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        &copy; <%= new Date().getFullYear() %> GraphicShop. All rights reserved.
+      </div>
     </div>
   </footer>
+
+  <script>
+    // Mobile menu toggle
+    document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+  </script>
+
+  <style>
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .service-card {
+      background: white;
+      padding: 2rem;
+      border-radius: var(--card-border-radius);
+      box-shadow: var(--box-shadow);
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .service-icon {
+      width: 70px;
+      height: 70px;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 1.5rem;
+    }
+
+    .service-card h3 {
+      margin-bottom: 1rem;
+    }
+
+    .service-card p {
+      margin-bottom: 1.5rem;
+      color: #666;
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .portfolio-item {
+      position: relative;
+      height: 250px;
+      border-radius: var(--card-border-radius);
+      overflow: hidden;
+    }
+
+    .portfolio-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .portfolio-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.8));
+      color: white;
+      padding: 1.5rem;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .portfolio-item:hover .portfolio-image {
+      transform: scale(1.05);
+    }
+
+    .portfolio-item:hover .portfolio-overlay {
+      transform: translateY(0);
+    }
+
+    .view-all {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .testimonials-section {
+      background: var(--light-grey);
+      padding: 4rem 0;
+    }
+
+    .testimonial-slide {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .testimonial-content {
+      font-size: 1.2rem;
+      font-style: italic;
+      margin-bottom: 2rem;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .author-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 1rem;
+    }
+
+    .author-info h4 {
+      margin-bottom: 0.2rem;
+    }
+
+    .author-info p {
+      margin: 0;
+      color: #666;
+    }
+
+    .cta-section {
+      text-align: center;
+      padding: 4rem 0;
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .cta-section h2 {
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .cta-section p {
+      margin-bottom: 2rem;
+      font-size: 1.2rem;
+    }
+
+    .cta-section .btn {
+      background: white;
+      color: var(--primary-color);
+    }
+
+    .cta-section .btn:hover {
+      background: rgba(255,255,255,0.9);
+    }
+
+    @media (max-width: 768px) {
+      .services-grid,
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </body>
 </html>

@@ -3,8 +3,14 @@ const Order = require('../models/Order');
 const { authenticateUser } = require('../middleware/auth');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { sendOrderConfirmation } = require('../utils/emailService');
+const path = require('path');
 
 const router = express.Router();
+
+/**
+ * Orders routes for GraphicShop
+ * Handles order management and viewing
+ */
 
 // Get price calculator
 router.get('/quote', (req, res) => {
@@ -170,67 +176,126 @@ router.post('/confirm-payment', authenticateUser, async (req, res) => {
   }
 });
 
-// Get user's orders
-router.get('/my-orders', authenticateUser, async (req, res) => {
+// Get all orders (requires authentication)
+router.get('/', authenticateUser, async (req, res) => {
   try {
-    const orders = await Order.find({ user: req.user.userId }).sort({ createdAt: -1 });
+    // Sample orders data - in a real app, would fetch from database
+    const orders = [
+      {
+        id: 'GS-2023-1045',
+        date: new Date(),
+        service: 'Logo Design',
+        status: 'in_progress',
+        price: 299
+      },
+      {
+        id: 'GS-2023-1032',
+        date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 7 days ago
+        service: 'Business Card Design',
+        status: 'completed',
+        price: 99
+      }
+    ];
 
-    res.json({ orders });
-  } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+    res.render('orders', {
+      title: 'My Orders - GraphicShop',
+      orders,
+      activePage: 'orders'
+    });
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'An error occurred while fetching orders'
+    });
   }
 });
 
 // Get specific order details
 router.get('/:id', authenticateUser, async (req, res) => {
   try {
-    const order = await Order.findById(req.id);
+    const id = req.params.id;
 
-    if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
-    }
+    // Sample order data - would normally come from database
+    const order = {
+      id: id,
+      date: new Date(),
+      service: 'Logo Design',
+      status: 'in_progress',
+      price: 299,
+      deliveryOption: 'standard',
+      projectDetails: 'Modern logo design for a tech startup',
+      files: [
+        {
+          name: 'requirements.pdf',
+          size: '1.2 MB',
+          date: new Date()
+        }
+      ],
+      timeline: [
+        {
+          status: 'created',
+          date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+          message: 'Order placed'
+        },
+        {
+          status: 'in_progress',
+          date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
+          message: 'Designer assigned'
+        }
+      ]
+    };
 
-    // Verify that the user owns this order
-    if (order.user.toString() !== req.user.userId && req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'Unauthorized' });
-    }
-
-    res.json({ order });
-  } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+    res.render('order-detail', {
+      title: `Order ${order.id} - GraphicShop`,
+      order,
+      activePage: 'orders'
+    });
+  } catch (error) {
+    console.error('Error fetching order details:', error);
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'An error occurred while fetching order details'
+    });
   }
 });
 
 // Submit feedback for completed order
 router.post('/:id/feedback', authenticateUser, async (req, res) => {
   try {
+    const { id } = req.params;
     const { rating, comment } = req.body;
 
-    const order = await Order.findById(req.params.id);
+    // For demo purposes - in a real app, would save to database
+    console.log(`Feedback for order ${id}: ${rating} stars - ${comment}`);
 
-    if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
-    }
+    res.redirect(`/orders/${id}?feedback=success`);
+  } catch (error) {
+    console.error('Error submitting feedback:', error);
+    res.status(500).render('error', {
+      title: 'Error',
+      message: 'An error occurred while submitting feedback'
+    });
+  }
+});
 
-    // Verify that the user owns this order
-    if (order.user.toString() !== req.user.userId) {
-      return res.status(403).json({ message: 'Unauthorized' });
-    }
+// Download completed work
+router.get('/:id/download/:fileId', authenticateUser, (req, res) => {
+  // For demo purposes - in a real app, would stream the file
+  const { id, fileId } = req.params;
 
-    // Check if the order is delivered
-    if (order.status !== 'delivered') {
-      return res.status(400).json({ message: 'Order must be delivered before submitting feedback' });
-    }
+  res.download(
+    path.join(__dirname, '../public/sample-files/sample-logo.zip'),
+    `logo-design-${id}.zip`
+  );
+});
 
-    order.feedback = {
-      rating,
-      comment,
-      createdAt: Date.now()
-    };
+// Get user's orders
+router.get('/my-orders', authenticateUser, async (req, res) => {
+  try {
+    const orders = await Order.find({ user: req.user.userId }).sort({ createdAt: -1 });
 
-    await order.save();
-
-    res.json({ message: 'Feedback submitted successfully', order });
+    res.json({ orders });
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
   }

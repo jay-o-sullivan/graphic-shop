@@ -1,41 +1,93 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+module.exports = (sequelize, DataTypes) => {
+  const Order = sequelize.define('Order', {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    orderNumber: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'Users',
+        key: 'id'
+      }
+    },
+    customerName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    customerEmail: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    customerPhone: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    customerCompany: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    projectDetails: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    deliveryOption: {
+      type: DataTypes.ENUM('standard', 'express', 'rush'),
+      defaultValue: 'standard'
+    },
+    items: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      get() {
+        return JSON.parse(this.getDataValue('items'));
+      },
+      set(value) {
+        this.setDataValue('items', JSON.stringify(value));
+      }
+    },
+    subtotal: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false
+    },
+    tax: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false
+    },
+    total: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false
+    },
+    paymentMethod: {
+      type: DataTypes.ENUM('card', 'paypal'),
+      allowNull: true
+    },
+    paymentId: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    status: {
+      type: DataTypes.ENUM('pending', 'paid', 'in_progress', 'completed', 'cancelled'),
+      defaultValue: 'pending'
+    },
+    completedAt: {
+      type: DataTypes.DATE,
+      allowNull: true
+    }
+  }, {
+    tableName: 'orders',
+    timestamps: true
+  });
 
-const Order = sequelize.define('Order', {
-  designType: {
-    type: DataTypes.ENUM('logo', 'icon', 'poster', 'banner', 'illustration', 'other'),
-    allowNull: false
-  },
-  size: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: false
-  },
-  additionalRequirements: {
-    type: DataTypes.TEXT
-  },
-  price: {
-    type: DataTypes.DECIMAL(10, 2),
-    allowNull: false
-  },
-  status: {
-    type: DataTypes.ENUM('pending', 'paid', 'in-progress', 'completed', 'delivered', 'cancelled'),
-    defaultValue: 'pending'
-  },
-  paymentId: {
-    type: DataTypes.STRING
-  },
-  completedWork: {
-    type: DataTypes.JSON,
-    defaultValue: null
-  },
-  feedback: {
-    type: DataTypes.JSON,
-    defaultValue: null
-  }
-});
+  Order.associate = function(models) {
+    Order.belongsTo(models.User, { foreignKey: 'userId' });
+  };
 
-module.exports = Order;
+  return Order;
+};

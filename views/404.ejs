@@ -4,24 +4,160 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Page Not Found - GraphicShop</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <%- include('partials/header') %>
+  <header class="header">
+    <div class="container nav-container">
+      <a href="/" class="logo">GraphicShop</a>
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/products">Services</a></li>
+        <li><a href="/portfolio">Portfolio</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+  </header>
 
   <main>
-    <section class="error-page">
+    <section class="error-section">
       <div class="container">
         <div class="error-content">
+          <div class="error-icon">
+            <i class="fas fa-exclamation-circle"></i>
+          </div>
           <h1>404</h1>
           <h2>Page Not Found</h2>
           <p>The page you are looking for doesn't exist or has been moved.</p>
-          <a href="/" class="btn btn-primary">Back to Home</a>
+          <div class="error-actions">
+            <a href="/" class="btn">Back to Home</a>
+            <a href="/contact" class="btn btn-outline">Contact Support</a>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <%- include('partials/footer') %>
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <div class="footer-logo">GraphicShop</div>
+          <p>Professional graphic design services for businesses of all sizes.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <h3>Services</h3>
+          <ul>
+            <li><a href="/products/logo-design">Logo Design</a></li>
+            <li><a href="/products/branding">Brand Identity</a></li>
+            <li><a href="/products/web-design">Web Graphics</a></li>
+            <li><a href="/products/print">Print Design</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h3>Company</h3>
+          <ul>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/portfolio">Our Work</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h3>Support</h3>
+          <ul>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/terms">Terms of Service</a></li>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/contact">Support</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        &copy; 2023 GraphicShop. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+  </script>
+
+  <style>
+    .error-section {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 0;
+    }
+
+    .error-content {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .error-icon {
+      font-size: 5rem;
+      color: var(--error-color);
+      margin-bottom: 1rem;
+    }
+
+    .error-content h1 {
+      font-size: 6rem;
+      margin-bottom: 0;
+      color: var(--secondary-color);
+    }
+
+    .error-content h2 {
+      margin-bottom: 1.5rem;
+      color: var(--secondary-color);
+    }
+
+    .error-content p {
+      margin-bottom: 2rem;
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    .error-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    @media (max-width: 576px) {
+      .error-content h1 {
+        font-size: 4rem;
+      }
+
+      .error-content h2 {
+        font-size: 1.5rem;
+      }
+
+      .error-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
 </body>
 </html>

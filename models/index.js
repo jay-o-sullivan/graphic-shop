@@ -1,74 +1,54 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const config = require('../config/database');
-
-// Initialize Sequelize with database config
-const sequelize = new Sequelize(
-  config.database,
-  config.username,
-  config.password,
-  {
-    host: config.host,
-    dialect: config.dialect,
-    logging: config.logging
-  }
-);
-
-// Define models
+const fs = require('fs');
+const path = require('path');
+const Sequelize = require('sequelize');
+const basename = path.basename(__filename);
+const env = process.env.NODE_ENV || 'development';
+const config = require('../config/database')[env];
 const db = {};
 
-// User model
-db.User = require('./user')(sequelize, DataTypes);
+// Create Sequelize instance with proper dialect configuration
+let sequelize;
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  // Make sure dialect is a string, not an object
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    {
+      host: config.host,
+      dialect: config.dialect, // This should be a string like 'mysql', 'postgres', etc.
+      port: config.port,
+      logging: config.logging || false,
+      define: config.define || {}
+    }
+  );
+}
 
-// Product/Service models
-db.ServiceCategory = require('./serviceCategory')(sequelize, DataTypes);
-db.Service = require('./service')(sequelize, DataTypes);
-db.Package = require('./package')(sequelize, DataTypes);
-db.Addon = require('./addon')(sequelize, DataTypes);
+// Import all models in the current directory
+fs
+  .readdirSync(__dirname)
+  .filter(file => {
+    return (
+      file.indexOf('.') !== 0 &&
+      file !== basename &&
+      file.slice(-3) === '.js' &&
+      file !== 'index.js'
+    );
+  })
+  .forEach(file => {
+    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+    db[model.name] = model;
+  });
 
-// Order models
-db.Order = require('./order')(sequelize, DataTypes);
-db.OrderItem = require('./orderItem')(sequelize, DataTypes);
+// Set up associations
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
 
-// Portfolio models
-db.Portfolio = require('./portfolio')(sequelize, DataTypes);
-db.Testimonial = require('./testimonial')(sequelize, DataTypes);
-
-// Marketing models
-db.Subscriber = require('./subscriber')(sequelize, DataTypes);
-db.Campaign = require('./campaign')(sequelize, DataTypes);
-
-// Define relationships
-db.ServiceCategory.hasMany(db.Service);
-db.Service.belongsTo(db.ServiceCategory);
-
-db.Service.hasMany(db.Package);
-db.Package.belongsTo(db.Service);
-
-db.Service.hasMany(db.Addon);
-db.Addon.belongsTo(db.Service);
-
-db.User.hasMany(db.Order);
-db.Order.belongsTo(db.User);
-
-db.Order.hasMany(db.OrderItem);
-db.OrderItem.belongsTo(db.Order);
-
-db.Service.hasMany(db.OrderItem);
-db.OrderItem.belongsTo(db.Service);
-
-db.Package.hasMany(db.OrderItem);
-db.OrderItem.belongsTo(db.Package);
-
-db.User.hasMany(db.Portfolio);
-db.Portfolio.belongsTo(db.User);
-
-db.User.hasMany(db.Testimonial);
-db.Testimonial.belongsTo(db.User);
-
-db.Portfolio.hasOne(db.Testimonial);
-db.Testimonial.belongsTo(db.Portfolio);
-
-// Export db object
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="<%= service.description %>">
+  <meta name="keywords" content="<%= service.title %>, graphic design, <%= service.category %>">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container nav-container">
+      <a href="/" class="logo">GraphicShop</a>
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/products" class="active">Services</a></li>
+        <li><a href="/portfolio">Portfolio</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="breadcrumb">
+      <a href="/">Home</a> / <a href="/products">Services</a> / <%= service.title %>
+    </div>
+
+    <div class="product-detail">
+      <div class="product-image">
+        <img src="<%= service.imageUrl %>" alt="<%= service.title %>">
+      </div>
+
+      <div class="product-info">
+        <h1><%= service.title %></h1>
+        <div class="product-price">$<%= service.price.toFixed(2) %></div>
+        <div class="product-description">
+          <p><%= service.fullDescription %></p>
+        </div>
+
+        <div class="product-cta">
+          <a href="/checkout?service=<%= service.id %>" class="btn btn-primary">Order Now</a>
+          <a href="/contact?service=<%= service.id %>" class="btn btn-outline">Ask a Question</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-tabs">
+      <div class="tabs-nav">
+        <button class="tab-btn active" data-tab="process">Our Process</button>
+        <button class="tab-btn" data-tab="deliverables">What You Get</button>
+        <button class="tab-btn" data-tab="testimonials">Testimonials</button>
+      </div>
+
+      <div class="tab-content active" id="process">
+        <h2>Our Design Process</h2>
+        <ol class="process-list">
+          <% if (service.process && service.process.length > 0) { %>
+            <% service.process.forEach((step, index) => { %>
+              <li>
+                <div class="step-number"><%= index + 1 %></div>
+                <div class="step-content">
+                  <h3><%= step %></h3>
+                </div>
+              </li>
+            <% }); %>
+          <% } else { %>
+            <li>No process information available</li>
+          <% } %>
+        </ol>
+      </div>
+
+      <div class="tab-content" id="deliverables">
+        <h2>What You'll Receive</h2>
+        <ul class="deliverables-list">
+          <% if (service.deliverables && service.deliverables.length > 0) { %>
+            <% service.deliverables.forEach(item => { %>
+              <li><i class="fas fa-check-circle"></i> <%= item %></li>
+            <% }); %>
+          <% } else { %>
+            <li>No deliverables information available</li>
+          <% } %>
+        </ul>
+      </div>
+
+      <div class="tab-content" id="testimonials">
+        <h2>Client Testimonials</h2>
+        <div class="testimonials-container">
+          <% if (service.testimonials && service.testimonials.length > 0) { %>
+            <% service.testimonials.forEach(testimonial => { %>
+              <div class="testimonial">
+                <div class="testimonial-rating">
+                  <% for(let i = 1; i <= 5; i++) { %>
+                    <i class="fas fa-star <%= i <= testimonial.rating ? 'filled' : '' %>"></i>
+                  <% } %>
+                </div>
+                <div class="testimonial-content">
+                  "<%= testimonial.content %>"
+                </div>
+                <div class="testimonial-author">
+                  <%= testimonial.author %><% if (testimonial.company) { %>, <%= testimonial.company %><% } %>
+                </div>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <p>No testimonials available yet.</p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="related-services">
+      <h2>Related Services</h2>
+      <div class="product-grid">
+        <!-- Placeholder for related services -->
+        <div class="product-card">
+          <div class="product-image-container">
+            <img src="/images/business-card.jpg" alt="Business Card Design" class="product-image">
+          </div>
+          <div class="product-details">
+            <h3 class="product-title">Business Card Design</h3>
+            <p class="product-category">print</p>
+            <div class="product-price">$99.00</div>
+            <div class="product-action">
+              <a href="/products/business-card" class="btn btn-outline">View Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <!-- Footer content same as products.ejs -->
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+
+    // Tabs functionality
+    document.querySelectorAll('.tab-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons and content
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+        // Add active class to clicked button
+        button.classList.add('active');
+
+        // Show corresponding content
+        const tabId = button.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+  </script>
+
+  <style>
+    .breadcrumb {
+      margin: 1rem 0;
+      color: #666;
+    }
+
+    .breadcrumb a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .product-detail {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .product-image img {
+      width: 100%;
+      border-radius: var(--card-border-radius);
+      box-shadow: var(--box-shadow);
+    }
+
+    .product-info h1 {
+      margin-bottom: 1rem;
+    }
+
+    .product-price {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+    }
+
+    .product-description {
+      margin-bottom: 2rem;
+    }
+
+    .product-cta {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .product-tabs {
+      margin: 3rem 0;
+    }
+
+    .tabs-nav {
+      display: flex;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 1.5rem;
+    }
+
+    .tab-btn {
+      padding: 0.8rem 1.5rem;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      font-weight: 600;
+      color: #666;
+      transition: var(--transition);
+    }
+
+    .tab-btn:hover {
+      color: var(--primary-color);
+    }
+
+    .tab-btn.active {
+      color: var(--primary-color);
+      border-bottom-color: var(--primary-color);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .process-list {
+      list-style: none;
+      padding: 0;
+      counter-reset: process-counter;
+    }
+
+    .process-list li {
+      display: flex;
+      margin-bottom: 1.5rem;
+      align-items: flex-start;
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-right: 1rem;
+      flex-shrink: 0;
+    }
+
+    .deliverables-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .deliverables-list li {
+      padding: 0.5rem 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .deliverables-list i {
+      color: var(--success-color);
+      margin-right: 0.8rem;
+    }
+
+    .testimonial {
+      background: #f8f8f8;
+      padding: 1.5rem;
+      border-radius: var(--card-border-radius);
+      margin-bottom: 1.5rem;
+    }
+
+    .testimonial-rating {
+      margin-bottom: 0.8rem;
+    }
+
+    .testimonial-rating .filled {
+      color: #f1c40f;
+    }
+
+    .testimonial-content {
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    .testimonial-author {
+      font-weight: bold;
+    }
+
+    .related-services h2 {
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .product-detail {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs-nav {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 5px;
+      }
+    }
+  </style>
+</body>
+</html>

@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - GraphicShop</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Complete your order for professional graphic design services.">
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Open Graph Tags for social sharing -->
+  <meta property="og:title" content="Complete Your Design Order - GraphicShop">
+  <meta property="og:description" content="Secure checkout for your custom graphic design services.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://graphicshop.com/checkout">
+  <!-- Schema.org markup for Google -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CheckoutPage",
+    "name": "GraphicShop Checkout",
+    "description": "Secure checkout for professional graphic design services",
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "USD",
+      "price": "396.44",
+      "availability": "https://schema.org/InStock"
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <!-- Stripe JS -->
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav-container">
+      <a href="/" class="logo">GraphicShop</a>
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/products">Services</a></li>
+        <li><a href="/portfolio">Portfolio</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="checkout-section">
+      <div class="container">
+        <h1>Checkout</h1>
+
+        <!-- Progress indicator for checkout process -->
+        <div class="checkout-progress">
+          <div class="progress-step completed">
+            <div class="step-number">1</div>
+            <div class="step-name">Shopping Cart</div>
+          </div>
+          <div class="progress-step active">
+            <div class="step-number">2</div>
+            <div class="step-name">Checkout</div>
+          </div>
+          <div class="progress-step">
+            <div class="step-number">3</div>
+            <div class="step-name">Confirmation</div>
+          </div>
+        </div>
+
+        <div class="checkout-container">
+          <!-- Checkout Form -->
+          <div class="checkout-form">
+            <h2>Your Information</h2>
+
+            <!-- Notification for returning customers -->
+            <div class="returning-customer-notice">
+              <p><i class="fas fa-user-circle"></i> Returning customer? <a href="/login?redirect=checkout">Log in</a> to speed up checkout.</p>
+            </div>
+
+            <form id="payment-form">
+              <!-- Personal information section -->
+              <div class="form-section">
+                <h3>Personal Details</h3>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="name">Full Name<span class="required">*</span></label>
+                    <input type="text" id="name" name="name" required autocomplete="name">
+                    <div class="form-hint">As it appears on your card (if paying by card)</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="email">Email Address<span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required autocomplete="email">
+                    <div class="form-hint">For order confirmation and updates</div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" autocomplete="tel">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="company">Company</label>
+                    <input type="text" id="company" name="company" autocomplete="organization">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Project details section -->
+              <div class="form-section">
+                <h3>Project Details</h3>
+                <div class="form-group"></div>
+                  <label for="comments">Tell us about your project<span class="required">*</span></label>
+                  <textarea id="comments" name="comments" rows="4" required placeholder="Please include any specific requirements, references, or ideas for your design project..."></textarea>
+                </div>
+
+                <div class="form-group file-upload">
+                  <label>Reference Files (Optional)</label>
+                  <div class="file-upload-container"></div>
+                    <input type="file" id="reference-files" name="reference-files" multiple accept=".jpg,.jpeg,.png,.pdf">
+                    <label for="reference-files" class="file-upload-btn">
+                      <i class="fas fa-cloud-upload-alt"></i> Upload Files
+                    </label>
+                    <div class="file-hint">Max file size: 10MB. Supported formats: JPG, PNG, PDF</div>
+                  </div>
+                  <div id="file-list" class="file-list"></div>
+                </div>
+              </div>
+
+              <!-- Delivery options section -->
+              <div class="form-section">
+                <h3>Delivery Options</h3>
+                <div class="delivery-options">
+                  <div class="delivery-option">
+                    <input type="radio" id="delivery-standard" name="delivery-option" value="standard" checked>
+                    <label for="delivery-standard">
+                      <div class="option-title">Standard Delivery</div>
+                      <div class="option-description">5-7 business days</div>
+                      <div class="option-price">Included</div>
+                    </label>
+                  </div>
+
+                  <div class="delivery-option">
+                    <input type="radio" id="delivery-express" name="delivery-option" value="express">
+                    <label for="delivery-express">
+                      <div class="option-title">Express Delivery</div>
+                      <div class="option-description">3-4 business days</div>
+                      <div class="option-price">+$50.00</div>
+                    </label>
+                  </div>
+
+                  <div class="delivery-option">
+                    <input type="radio" id="delivery-rush" name="delivery-option" value="rush">
+                    <label for="delivery-rush">
+                      <div class="option-title">Rush Delivery</div>
+                      <div class="option-description">48 hours</div>
+                      <div class="option-price">+$75.00</div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="payment-methods">
+                <h3>Payment Method</h3>
+
+                <div class="payment-method-selector">
+                  <div class="payment-method-option">
+                    <input type="radio" id="payment-card" name="payment-method" value="card" checked>
+                    <label for="payment-card">Credit or Debit Card</label>
+                  </div>
+
+                  <div class="payment-method-option">
+                    <input type="radio" id="payment-paypal" name="payment-method" value="paypal">
+                    <label for="payment-paypal">PayPal</label>
+                  </div>
+                </div>
+
+                <div id="card-payment-method" class="payment-method-content">
+                  <div class="form-group">
+                    <label for="card-element">Credit or Debit Card<span class="required">*</span></label>
+                    <div id="card-element" class="stripe-card-element">
+                      <!-- Stripe Card Element will be inserted here -->
+                    </div>
+                    <div class="card-brands">
+                      <img src="/images/visa.svg" alt="Visa" width="40">
+                      <img src="/images/mastercard.svg" alt="Mastercard" width="40">
+                      <img src="/images/amex.svg" alt="American Express" width="40">
+                      <img src="/images/discover.svg" alt="Discover" width="40">
+                    </div>
+                    <div id="card-errors" role="alert" class="payment-error"></div>
+                  </div>
+                </div>
+
+                <div id="paypal-payment-method" class="payment-method-content" style="display: none;">
+                  <p><i class="fab fa-paypal"></i> You will be redirected to PayPal to complete your payment securely.</p>
+                  <div id="paypal-button-container" class="paypal-button-container"></div>
+                </div>
+              </div>
+
+              <!-- Terms acceptance -->
+              <div class="form-group checkbox-group terms-acceptance">
+                <input type="checkbox" id="terms-accept" name="terms-accept" required>
+                <label for="terms-accept">I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a><span class="required">*</span></label>
+              </div>
+
+              <div class="payment-button">
+                <button type="submit" class="btn btn-primary" id="submit-payment">
+                  <i class="fas fa-lock"></i> Complete Order
+                </button>
+                <div class="secure-checkout">
+                  <i class="fas fa-shield-alt"></i> Secure checkout
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Order Summary -->
+          <div class="checkout-summary">
+            <h3>Order Summary</h3>
+
+            <div class="order-items">
+              <div class="order-item">
+                <div class="item-image">
+                  <img src="/images/logo-design.jpg" alt="Logo Design Package">
+                </div>
+                <div class="item-details">
+                  <div class="item-name">Logo Design Package</div>
+                  <div class="item-description">Standard package with 3 concepts</div>
+                  <div class="item-price">$299.00</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="summary-section">
+              <div class="summary-item">
+                <span>Package Price</span>
+                <span>$299.00</span>
+              </div>
+
+              <div class="summary-item">
+                <span>Rush Delivery (48hr)</span>
+                <span>$75.00</span>
+              </div>
+            </div>
+
+            <div class="summary-section"></div>
+              <div class="summary-item">
+                <span>Subtotal</span>
+                <span>$374.00</span>
+              </div>
+
+              <div class="summary-item">
+                <span>Tax (6%)</span>
+                <span>$22.44</span>
+              </div>
+            </div>
+
+            <div class="summary-total">
+              <span>Total</span>
+              <span>$396.44</span>
+            </div>
+
+            <!-- Coupon code section -->
+            <div class="coupon-section">
+              <div class="coupon-form">
+                <input type="text" id="coupon-code" placeholder="Promo Code">
+                <button type="button" id="apply-coupon" class="btn btn-outline">Apply</button>
+              </div>
+              <div id="coupon-message"></div>
+            </div>
+
+            <div class="secure-checkout-info">
+              <p><i class="fas fa-lock"></i> Your payment information is secure. We use industry-standard encryption to protect your data.</p>
+            </div>
+
+            <!-- Money-back guarantee -->
+            <div class="guarantee-badge">
+              <i class="fas fa-medal"></i>
+              <div class="guarantee-text">
+                <strong>100% Satisfaction Guarantee</strong>
+                <p>Not happy with your design? We'll work with you until you love it or your money back.</p>
+              </div>
+            </div>
+
+            <!-- Customer support -->
+            <div class="support-info">
+              <p>Need help? <a href="/contact">Contact our support team</a></p>
+              <p><i class="fas fa-phone"></i> (555) 123-4567</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <div class="footer-logo">GraphicShop</div>
+          <p>Professional graphic design services for businesses of all sizes.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <h3>Services</h3>
+          <ul>
+            <li><a href="/products/logo-design">Logo Design</a></li>
+            <li><a href="/products/branding">Brand Identity</a></li>
+            <li><a href="/products/web-design">Web Graphics</a></li>
+            <li><a href="/products/print">Print Design</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h3>Company</h3>
+          <ul>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/portfolio">Our Work</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h3>Support</h3>
+          <ul>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/terms">Terms of Service</a></li>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/contact">Support</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        &copy; 2023 GraphicShop. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+
+    // File upload handling
+    document.getElementById('reference-files').addEventListener('change', function(e) {
+      const fileList = document.getElementById('file-list');
+      fileList.innerHTML = '';
+
+      if (this.files.length > 0) {
+        Array.from(this.files).forEach(file => {
+          const fileItem = document.createElement('div');
+          fileItem.className = 'file-item';
+
+          const fileName = document.createElement('span');
+          fileName.className = 'file-name';
+          fileName.textContent = file.name;
+
+          const fileSize = document.createElement('span');
+          fileSize.className = 'file-size';
+          fileSize.textContent = formatFileSize(file.size);
+
+          const removeBtn = document.createElement('button');
+          removeBtn.className = 'file-remove';
+          removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+          removeBtn.addEventListener('click', function() {
+            fileItem.remove();
+          });
+
+          fileItem.appendChild(fileName);
+          fileItem.appendChild(fileSize);
+          fileItem.appendChild(removeBtn);
+          fileList.appendChild(fileItem);
+        });
+      }
+    });
+
+    function formatFileSize(bytes) {
+      if (bytes < 1024) return bytes + ' bytes';
+      else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      else return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+
+    // Coupon code handling
+    document.getElementById('apply-coupon').addEventListener('click', function() {
+      const couponCode = document.getElementById('coupon-code').value.trim();
+      const couponMessage = document.getElementById('coupon-message');
+
+      if (!couponCode) {
+        couponMessage.textContent = 'Please enter a promo code';
+        couponMessage.className = 'error-message';
+        return;
+      }
+
+      // Simulate coupon validation
+      if (couponCode.toUpperCase() === 'WELCOME10') {
+        couponMessage.textContent = 'Coupon applied! 10% discount';
+        couponMessage.className = 'success-message';
+
+        // Update the order summary with discount
+        updateOrderWithDiscount(0.1);
+      } else {
+        couponMessage.textContent = 'Invalid promo code';
+        couponMessage.className = 'error-message';
+      }
+    });
+
+    function updateOrderWithDiscount(discountRate) {
+      const subtotal = 374.00;
+      const discount = subtotal * discountRate;
+      const newSubtotal = subtotal - discount;
+      const tax = newSubtotal * 0.06;
+      const total = newSubtotal + tax;
+
+      // Update the summary display
+      const summaryItems = document.querySelectorAll('.summary-item');
+
+      // Add discount line
+      const discountItem = document.createElement('div');
+      discountItem.className = 'summary-item discount';
+      discountItem.innerHTML = `<span>Discount (10%)</span><span>-$${discount.toFixed(2)}</span>`;
+
+      summaryItems[1].insertAdjacentElement('afterend', discountItem);
+
+      // Update subtotal
+      summaryItems[3].innerHTML = `<span>Subtotal</span><span>$${newSubtotal.toFixed(2)}</span>`;
+
+      // Update tax
+      summaryItems[4].innerHTML = `<span>Tax (6%)</span><span>$${tax.toFixed(2)}</span>`;
+
+      // Update total
+      document.querySelector('.summary-total').innerHTML = `<span>Total</span><span>$${total.toFixed(2)}</span>`;
+    }
+
+    // Handle delivery option changes
+    document.querySelectorAll('input[name="delivery-option"]').forEach(input => {
+      input.addEventListener('change', function() {
+        const subtotal = 299.00; // Base price
+        let additionalFee = 0;
+
+        if (this.value === 'express') {
+          additionalFee = 50.00;
+        } else if (this.value === 'rush') {
+          additionalFee = 75.00;
+        }
+
+        // Update the order summary
+        updateOrderWithDeliveryOption(subtotal, additionalFee);
+      });
+    });
+
+    function updateOrderWithDeliveryOption(basePrice, deliveryFee) {
+      const summaryItems = document.querySelectorAll('.summary-item');
+
+      // Update delivery fee line
+      if (deliveryFee > 0) {
+        const deliveryType = deliveryFee === 50 ? 'Express Delivery (3-4 days)' : 'Rush Delivery (48hr)';
+        summaryItems[1].innerHTML = `<span>${deliveryType}</span><span>$${deliveryFee.toFixed(2)}</span>`;
+      } else {
+        summaryItems[1].innerHTML = `<span>Standard Delivery (5-7 days)</span><span>Included</span>`;
+      }
+
+      // Calculate new subtotal
+      const subtotal = basePrice + deliveryFee;
+      summaryItems[3].innerHTML = `<span>Subtotal</span><span>$${subtotal.toFixed(2)}</span>`;
+
+      // Calculate tax
+      const tax = subtotal * 0.06;
+      summaryItems[4].innerHTML = `<span>Tax (6%)</span><span>$${tax.toFixed(2)}</span>`;
+
+      // Update total
+      const total = subtotal + tax;
+      document.querySelector('.summary-total').innerHTML = `<span>Total</span><span>$${total.toFixed(2)}</span>`;
+    }
+
+    // Initialize Stripe
+    const stripe = Stripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+    const elements = stripe.elements();
+
+    // Create card element
+    const cardElement = elements.create('card', {
+      style: {
+        base: {
+          color: '#32325d',
+          fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+          fontSmoothing: 'antialiased',
+          fontSize: '16px',
+          '::placeholder': {
+            color: '#aab7c4'
+          }
+        },
+        invalid: {
+          color: '#e74c3c',
+          iconColor: '#e74c3c'
+        }
+      }
+    });
+
+    cardElement.mount('#card-element');
+
+    // Handle real-time validation errors
+    cardElement.addEventListener('change', function(event) {
+      const displayError = document.getElementById('card-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+
+    // Handle payment method switch
+    document.querySelectorAll('input[name="payment-method"]').forEach(input => {
+      input.addEventListener('change', function() {
+        document.getElementById('card-payment-method').style.display =
+          this.value === 'card' ? 'block' : 'none';
+        document.getElementById('paypal-payment-method').style.display =
+          this.value === 'paypal' ? 'block' : 'none';
+      });
+    });
+
+    // Handle form submission
+    const form = document.getElementById('payment-form');
+    form.addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const submitButton = document.getElementById('submit-payment');
+      const paymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+
+      // Validate form
+      if (!validateForm()) {
+        return;
+      }
+
+      // Disable the submit button and show loading state
+      submitButton.disabled = true;
+      submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+      // Collect form data for order processing
+      const orderData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        company: document.getElementById('company').value,
+        comments: document.getElementById('comments').value,
+        deliveryOption: document.querySelector('input[name="delivery-option"]:checked').value
+      };
+
+      // Log for demonstration purposes
+      console.log('Order data:', orderData);
+
+      if (paymentMethod === 'card') {
+        try {
+          // Create payment intent on server (this is a simulation)
+          // In a real app, you would call your server to create a payment intent
+          console.log('Creating payment intent...');
+
+          // Confirm card payment
+          const result = await stripe.confirmCardPayment('pi_simulated_payment_intent_id', {
+            payment_method: {
+              card: cardElement,
+              billing_details: {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value
+              }
+            }
+          });
+
+          if (result.error) {
+            // Show error to customer
+            const errorElement = document.getElementById('card-errors');
+            errorElement.textContent = result.error.message;
+            errorElement.style.display = 'block';
+
+            // Reset button state
+            submitButton.disabled = false;
+            submitButton.innerHTML = '<i class="fas fa-lock"></i> Complete Order';
+          } else {
+            // Payment succeeded, show success message before redirect
+            showPaymentSuccess();
+
+            // Redirect to success page after delay
+            setTimeout(() => {
+              window.location.href = '/checkout/success?order_id=GS-2023-1045';
+            }, 1500);
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          const errorElement = document.getElementById('card-errors');
+          errorElement.textContent = 'An unexpected error occurred. Please try again.';
+          errorElement.style.display = 'block';
+
+          // Reset button state
+          submitButton.disabled = false;
+          submitButton.innerHTML = '<i class="fas fa-lock"></i> Complete Order';
+        }
+      } else if (paymentMethod === 'paypal') {
+        // For PayPal, we would typically initialize the PayPal SDK and buttons here
+        // For demo purposes, just redirect to success page after a delay
+        showProcessingMessage('Redirecting to PayPal...');
+
+        setTimeout(() => {
+          // Simulate successful PayPal payment
+          window.location.href = '/checkout/success?order_id=GS-2023-1046&payment_method=paypal';
+        }, 2000);
+      }
+    });
+
+    // Form validation function
+    function validateForm() {
+      const requiredFields = ['name', 'email', 'comments'];
+      let isValid = true;
+
+      requiredFields.forEach(field => {
+        const input = document.getElementById(field);
+        const value = input.value.trim();
+
+        if (!value) {
+          isValid = false;
+          input.classList.add('error');
+
+          // Add error message if not already present
+          let errorMessage = input.nextElementSibling;
+          if (!errorMessage || !errorMessage.classList.contains('input-error')) {
+            errorMessage = document.createElement('div');
+            errorMessage.className = 'input-error';
+            errorMessage.textContent = 'This field is required';
+            input.parentNode.insertBefore(errorMessage, input.nextSibling);
+          }
+        } else {
+          input.classList.remove('error');
+
+          // Remove error message if present
+          const errorMessage = input.nextElementSibling;
+          if (errorMessage && errorMessage.classList.contains('input-error')) {
+            errorMessage.remove();
+          }
+        }
+      });
+
+      // Validate terms acceptance
+      const termsCheckbox = document.getElementById('terms-accept');
+      if (!termsCheckbox.checked) {
+        isValid = false;
+        termsCheckbox.classList.add('error');
+
+        // Add error message for terms
+        let termsError = termsCheckbox.parentNode.querySelector('.input-error');
+        if (!termsError) {
+          termsError = document.createElement('div');
+          termsError.className = 'input-error';
+          termsError.textContent = 'You must accept the terms to continue';
+          termsCheckbox.parentNode.appendChild(termsError);
+        }
+      } else {
+        termsCheckbox.classList.remove('error');
+
+        // Remove error message
+        const termsError = termsCheckbox.parentNode.querySelector('.input-error');
+        if (termsError) {
+          termsError.remove();
+        }
+      }
+
+      return isValid;
+    }
+
+    // Success message helper
+    function showPaymentSuccess() {
+      // Create a success overlay
+      const overlay = document.createElement('div');
+      overlay.className = 'payment-success-overlay';
+
+      const message = document.createElement('div');
+      message.className = 'success-message';
+      message.innerHTML = `
+        <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+        <h3>Payment Successful!</h3>
+        <p>Your order has been placed. Redirecting to confirmation page...</p>
+        <div class="loader"></div>
+      `;
+
+      overlay.appendChild(message);
+      document.body.appendChild(overlay);
+    }
+
+    // Processing message helper
+    function showProcessingMessage(text) {
+      // Create a processing overlay
+      const overlay = document.createElement('div');
+      overlay.className = 'processing-overlay';
+
+      const message = document.createElement('div');
+      message.className = 'processing-message';
+      message.innerHTML = `
+        <div class="processing-icon"><i class="fas fa-spinner fa-spin"></i></div>
+        <p>${text}</p>
+      `;
+
+      overlay.appendChild(message);
+      document.body.appendChild(overlay);
+    }
+  </script>
+</body>
+</html>

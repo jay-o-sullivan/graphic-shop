@@ -1,70 +1,51 @@
 # GraphicShop
 
-A professional graphic design services platform built with Node.js, Express, and EJS.
+A professional graphic design services web application.
 
-## Features
+## Quick Start
 
-- Portfolio showcase with categorized design examples
-- Service descriptions and pricing
-- Request quote functionality
-- Responsive design for all screen sizes
+**Important:** This application requires Node.js.
 
-## Installation
-
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/graphic-shop.git
-   cd graphic-shop
-   ```
-
-2. Install dependencies:
+1. First, install the dependencies:
    ```
    npm install
    ```
 
-3. Create a `.env` file in the root directory with the following variables:
+   Or use the provided installer script:
    ```
-   PORT=3000
-   DB_HOST=localhost
-   DB_NAME=graphicshop
-   DB_USER=root
-   DB_PASSWORD=
-   JWT_SECRET=your_jwt_secret_key_here
-   STRIPE_PUBLIC_KEY=your_stripe_public_key
-   STRIPE_SECRET_KEY=your_stripe_secret_key
-   EMAIL_HOST=smtp.example.com
-   EMAIL_PORT=587
-   EMAIL_USER=your_email@example.com
-   EMAIL_PASS=your_email_password
-   BASE_URL=http://localhost:3000
+   install-deps.bat
    ```
 
-4. Start the application:
+2. Start the application:
    ```
-   node server.js
+   npm start
    ```
 
-5. Open your browser and visit `http://localhost:3000`
+   Or use the provided start script:
+   ```
+   start.bat
+   ```
 
-## Technologies Used
+3. Open your browser and navigate to:
+   ```
+   http://localhost:3000
+   ```
+
+## Features
+
+- Browse design services
+- View portfolio
+- Order design services
+- Secure checkout process
+
+## Troubleshooting
+
+If you encounter any issues with the database, this application can run in a static mode without requiring a database connection.
+
+## Technology Stack
 
 - Node.js
 - Express
-- EJS Templates
-- Sequelize (ORM)
-- MySQL/PostgreSQL
-- Stripe Payment Processing
-- Nodemailer
-
-## Project Structure
-
-- `server.js` - Main application file
-- `models/` - Database models
-- `views/` - EJS templates
-- `routes/` - Route handlers
-- `public/` - Static assets
-- `middleware/` - Express middleware
-- `utils/` - Utility functions
-
-## License
+- EJS templates
+- CSS3
 

@@ -1,29 +1,21 @@
 /**
- * Image loader utility for SEO-friendly images in GraphicShop
- *
- * Features:
- * - Lazy loading images for performance
- * - Adding structured data for SEO
- * - Adding proper alt text for accessibility
+ * Image loader for GraphicShop
+ * Handles lazy loading and SEO optimization for images
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Select all images with the lazy-load class
+  // Initialize lazy loading for images
   const lazyImages = document.querySelectorAll('img.lazy-image');
 
-  // Create an intersection observer
   if ('IntersectionObserver' in window) {
     const imageObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const img = entry.target;
-          const src = img.dataset.src;
-
-          if (src) {
-            img.src = src;
+          if (img.dataset.src) {
+            img.src = img.dataset.src;
             img.classList.add('loaded');
 
-            // If there's a srcset attribute
             if (img.dataset.srcset) {
               img.srcset = img.dataset.srcset;
             }
@@ -38,19 +30,27 @@ document.addEventListener('DOMContentLoaded', () => {
       imageObserver.observe(img);
     });
   } else {
-    // Fallback for browsers that don't support IntersectionObserver
+    // Fallback for browsers without IntersectionObserver
     lazyImages.forEach(img => {
-      img.src = img.dataset.src;
-      if (img.dataset.srcset) {
-        img.srcset = img.dataset.srcset;
-      }
+      img.src = img.dataset.src || img.src;
       img.classList.add('loaded');
     });
   }
 
-  // Add structured data for product images
-  const productCards = document.querySelectorAll('.product-card');
+  // Add structured data for product images (for SEO)
+  document.querySelectorAll('.product-card').forEach(card => {
+    const productId = card.dataset.productId;
+    if (!productId) return;
 
+    const img = card.querySelector('.product-image');
+    const title = card.querySelector('.product-title')?.textContent;
+    const price = card.querySelector('.product-price')?.textContent.trim();
+
+    if (img && title && price) {
+      const productData = {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": title,
   productCards.forEach(card => {
     const image = card.querySelector('.product-image');
     const title = card.querySelector('.product-title').textContent;
