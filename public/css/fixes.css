@@ -1,0 +1,71 @@
+/* Base fixes for GraphicShop styling */
+
+/* Image styling */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Fix logo display */
+.logo {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+/* Make sure footer looks good */
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+/* Ensure proper card spacing */
+.product-card, .service-card, .portfolio-item {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fix spacing in card content */
+.product-details, .service-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Make buttons appear at bottom of cards */
+.product-action, .service-action {
+  margin-top: auto;
+}
+
+/* Fix duplicated header/navbar issue */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: white;
+}
+
+/* Ensure only one instance of nav-container is displayed */
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+/* Fix any potential duplicate elements by enforcing proper stacking context */
+body > header.header {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* If the duplication comes from a fixed position element */
+.header ~ .header {
+  display: none !important;
+}
+
+/* Reset any fixed positioning that might be causing duplicate displays */
+.fixed-header, .sticky-header {
+  position: relative !important;
+}

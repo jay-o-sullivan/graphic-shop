@@ -20,10 +20,30 @@ app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
 
-// Special handler for favicon requests
+// Handle favicon requests
 app.get('/favicon.ico', (req, res) => {
   res.type('image/x-icon');
-  res.status(204).end(); // No content response
+  res.status(204).end();
+});
+
+// Add cleaner middleware to prevent layout duplication
+app.use((req, res, next) => {
+  // Save the original render method
+  const originalRender = res.render;
+
+  // Override the render method
+  res.render = function(view, options, callback) {
+    // Ensure options exists
+    options = options || {};
+
+    // Set a flag to ensure layouts aren't duplicated
+    options._layoutUsed = true;
+
+    // Call the original render method
+    return originalRender.call(this, view, options, callback);
+  };
+
+  next();
 });
 
 // Set up EJS as view engine
