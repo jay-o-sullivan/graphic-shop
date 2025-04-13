@@ -3,74 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
-
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="Browse our professional graphic design services including logo design, branding, and marketing materials.">
-  <meta name="keywords" content="graphic design, logo design, branding, print design, web graphics">
+  <title><%= typeof title !== 'undefined' ? title : 'GraphicShop' %></title>
+  <meta name="description" content="<%= typeof description !== 'undefined' ? description : 'Professional graphic design services.' %>">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-  <!-- Fix for missing images -->
+  <!-- Simple image fix script -->
   <script src="/js/fix-images.js"></script>
 </head>
 <body>
   <header class="header">
     <div class="container nav-container">
-      <a href="/" class="logo">GraphicShop</a>
+      <a href="/" class="logo">
+        <img src="/images/logo.svg" alt="GraphicShop" width="180" height="40">
+      </a>
       <button class="mobile-menu-btn">
         <i class="fas fa-bars"></i>
       </button>
       <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/products" class="active">Services</a></li>
-        <li><a href="/portfolio">Portfolio</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/contact">Contact</a></li>
+        <li><a href="/" class="<%= typeof activePage !== 'undefined' && activePage === 'home' ? 'active' : '' %>">Home</a></li>
+        <li><a href="/products" class="<%= typeof activePage !== 'undefined' && activePage === 'products' ? 'active' : '' %>">Services</a></li>
+        <li><a href="/portfolio" class="<%= typeof activePage !== 'undefined' && activePage === 'portfolio' ? 'active' : '' %>">Portfolio</a></li>
+        <li><a href="/about" class="<%= typeof activePage !== 'undefined' && activePage === 'about' ? 'active' : '' %>">About</a></li>
+        <li><a href="/contact" class="<%= typeof activePage !== 'undefined' && activePage === 'contact' ? 'active' : '' %>">Contact</a></li>
       </ul>
     </div>
   </header>
 
-  <section class="page-header">
-    <div class="container">
-      <h1>Our Design Services</h1>
-      <p>Professional solutions tailored to your brand needs</p>
-    </div>
-  </section>
-
-  <main class="container">
-    <section class="services-section">
-      <div class="product-grid">
-        <% if (services && services.length > 0) { %>
-          <% services.forEach(service => { %>
-            <div class="product-card" data-product-id="<%= service.id %>">
-              <div class="product-image-container">
-                <img src="<%= service.imageUrl %>" alt="<%= service.title %>" class="product-image">
-                <% if (service.featured) { %>
-                  <div class="product-badge new">Popular</div>
-                <% } %>
-              </div>
-              <div class="product-details">
-                <h3 class="product-title"><%= service.title %></h3>
-                <p class="product-category"><%= service.category %></p>
-                <div class="product-price">$<%= service.price.toFixed(2) %></div>
-                <p class="product-description"><%= service.description %></p>
-                <div class="product-action">
-                  <a href="/products/<%= service.id %>" class="btn btn-outline">View Details</a>
-                  <a href="/checkout?service=<%= service.id %>" class="btn">Order Now</a>
-                </div>
-              </div>
-            </div>
-          <% }); %>
-        <% } else { %>
-          <div class="no-products">
-            <p>No services are currently available. Please check back soon!</p>
-          </div>
-        <% } %>
-      </div>
-    </section>
-  </main>
+  <%- body %>
 
   <footer>
     <div class="container">
@@ -123,6 +84,11 @@
     </div>
   </footer>
 
-  <%- include('partials/scripts') %>
+  <script>
+    // Mobile menu toggle
+    document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+  </script>
 </body>
 </html>

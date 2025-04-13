@@ -6,6 +6,7 @@
 const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
+const expressLayouts = require('express-ejs-layouts');
 
 // Load environment variables
 dotenv.config();
@@ -19,9 +20,20 @@ app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
 
+// Special handler for favicon requests
+app.get('/favicon.ico', (req, res) => {
+  res.type('image/x-icon');
+  res.status(204).end(); // No content response
+});
+
 // Set up EJS as view engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.set('view options', { layout: 'layouts/main' });
+
+// Enable layout support with express-ejs-layouts
+app.use(expressLayouts);
+app.set('layout', 'layouts/main');
 
 // Import routes
 const checkoutRoutes = require('./routes/checkout');
