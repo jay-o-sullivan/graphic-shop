@@ -1,0 +1,33 @@
+# Git attributes file for GraphicShop
+
+# Apply stripe-key filter to .env files
+.env filter=stripe-key
+
+# Ensure line endings are normalized
+* text=auto
+
+# Explicitly declare text files you want to always be normalized and converted
+# to native line endings on checkout.
+*.js text
+*.jsx text
+*.json text
+*.css text
+*.html text
+*.ejs text
+*.md text
+*.txt text
+
+# Declare files that will always have CRLF line endings on checkout.
+*.bat text eol=crlf
+
+# Declare files that will always have LF line endings on checkout.
+*.sh text eol=lf
+
+# Denote all files that are truly binary and should not be modified.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.zip binary
+*.pdf binary

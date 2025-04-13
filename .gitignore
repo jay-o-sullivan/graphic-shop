@@ -1,10 +1,12 @@
 # Dependency directories
 node_modules/
 
-# Environment variables
+# Environment variables and secrets
 .env
 .env.local
 .env.*.local
+*.pem
+*secrets*
 
 # Database files
 *.sqlite
@@ -42,6 +44,3 @@ temp/
 # Uploads directory
 /public/uploads/*
 !/public/uploads/.gitkeep
-
-# Test coverage
-/coverage
