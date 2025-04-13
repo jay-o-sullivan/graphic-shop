@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Contact GraphicShop for professional graphic design services including logo design, branding, and print design.">
+  <meta name="keywords" content="contact, graphic design, logo design, branding">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <header class="header">
+    <!-- ...existing code... -->
+  </header>
+
+  <section class="page-header">
+    <div class="container">
+      <h1>Contact Us</h1>
+      <p>Get in touch for your next design project</p>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="contact-wrapper">
+      <div class="contact-info">
+        <h2>Get In Touch</h2>
+        <p>Have a question or want to discuss a project? Fill out the form and we'll get back to you as soon as possible.</p>
+
+        <div class="contact-methods">
+          <div class="contact-method">
+            <div class="method-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="method-details">
+              <h3>Email</h3>
+              <p>info@graphicshop.com</p>
+            </div>
+          </div>
+
+          <div class="contact-method">
+            <div class="method-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div class="method-details">
+              <h3>Phone</h3>
+              <p>(555) 123-4567</p>
+            </div>
+          </div>
+
+          <div class="contact-method">
+            <div class="method-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="method-details">
+              <h3>Address</h3>
+              <p>123 Design Street, Creative City, 12345</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+      <div class="contact-form-wrapper">
+        <% if (success) { %>
+          <div class="alert success">
+            <i class="fas fa-check-circle"></i> <%= success %>
+          </div>
+        <% } %>
+
+        <% if (error) { %>
+          <div class="alert error">
+            <i class="fas fa-exclamation-circle"></i> <%= error %>
+          </div>
+        <% } %>
+
+        <form method="POST" action="/contact" class="contact-form">
+          <div class="form-group">
+            <label for="name">Name <span class="required">*</span></label>
+            <input type="text" id="name" name="name" required value="<%= locals.formData ? formData.name : '' %>">
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email <span class="required">*</span></label>
+            <input type="email" id="email" name="email" required value="<%= locals.formData ? formData.email : '' %>">
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" value="<%= locals.formData ? formData.phone : '' %>">
+          </div>
+
+          <div class="form-group">
+            <label for="service">Service Interested In</label>
+            <select id="service" name="service">
+              <option value="">Select a service</option>
+              <option value="logo-design" <%= (locals.formData && formData.service === 'logo-design') || (locals.serviceInfo && serviceInfo.id === 'logo-design') ? 'selected' : '' %>>Logo Design</option>
+              <option value="branding" <%= (locals.formData && formData.service === 'branding') || (locals.serviceInfo && serviceInfo.id === 'branding') ? 'selected' : '' %>>Brand Identity</option>
+              <option value="print-design" <%= (locals.formData && formData.service === 'print-design') || (locals.serviceInfo && serviceInfo.id === 'print-design') ? 'selected' : '' %>>Print Design</option>
+              <option value="web-design" <%= (locals.formData && formData.service === 'web-design') || (locals.serviceInfo && serviceInfo.id === 'web-design') ? 'selected' : '' %>>Web Design</option>
+              <option value="other" <%= (locals.formData && formData.service === 'other') ? 'selected' : '' %>>Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message <span class="required">*</span></label>
+            <textarea id="message" name="message" rows="5" required><%= locals.formData ? formData.message : '' %></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <!-- ...existing code... -->
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+  </script>
+
+  <style>
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+
+    .contact-info {
+      background-color: #f9f9f9;
+      padding: 2rem;
+      border-radius: var(--card-border-radius);
+    }
+
+    .contact-methods {
+      margin: 2rem 0;
+    }
+
+    .contact-method {
+      display: flex;
+      margin-bottom: 1.5rem;
+    }
+
+    .method-icon {
+      width: 40px;
+      height: 40px;
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      flex-shrink: 0;
+    }
+
+    .method-details h3 {
+      margin-bottom: 0.2rem;
+    }
+
+    .method-details p {
+      margin: 0;
+      color: #666;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      background-color: #eee;
+      color: var(--secondary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .social-link:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .contact-form-wrapper {
+      padding: 2rem;
+      border-radius: var(--card-border-radius);
+      box-shadow: var(--box-shadow);
+    }
+
+    .alert {
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+    }
+
+    .alert.success {
+      background-color: rgba(46, 204, 113, 0.1);
+      color: #2ecc71;
+    }
+
+    .alert.error {
+      background-color: rgba(231, 76, 60, 0.1);
+      color: #e74c3c;
+    }
+
+    .alert i {
+      margin-right: 0.5rem;
+    }
+
+    .contact-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 0;
+    }
+
+    .form-group:nth-child(5),
+    .form-group:nth-child(6) {
+      grid-column: 1 / -1;
+    }
+
+    .required {
+      color: #e74c3c;
+    }
+
+    .btn-primary {
+      grid-column: 1 / -1;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .contact-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-form {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</body>
+</html>

@@ -23,6 +23,13 @@ app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// Import routes
+const checkoutRoutes = require('./routes/checkout');
+const portfolioRoutes = require('./routes/portfolio');
+const contactRoutes = require('./routes/contact');
+const aboutRoutes = require('./routes/about');
+const dashboardRoutes = require('./routes/dashboard');
+
 // Home route
 app.get('/', (req, res) => {
   res.render('index', {
@@ -30,6 +37,15 @@ app.get('/', (req, res) => {
     activePage: 'home'
   });
 });
+
+// Use routes
+app.use('/products', require('./routes/products'));
+app.use('/checkout', checkoutRoutes);
+app.use('/portfolio', portfolioRoutes);
+app.use('/contact', contactRoutes);
+app.use('/about', aboutRoutes);
+app.use('/dashboard', dashboardRoutes);
+app.use('/profile', dashboardRoutes); // Profile routes are in dashboard.js
 
 // Simple products route (without database)
 app.get('/products', (req, res) => {

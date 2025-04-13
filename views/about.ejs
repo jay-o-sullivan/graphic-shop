@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Learn about GraphicShop, our team, our mission, and our approach to graphic design.">
+  <meta name="keywords" content="about us, graphic design agency, design team, design process">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <header class="header">
+    <!-- ...existing code... -->
+  </header>
+
+  <section class="page-header">
+    <div class="container">
+      <h1>About Us</h1>
+      <p>Get to know the team behind GraphicShop</p>
+    </div>
+  </section>
+
+  <main>
+    <section class="about-intro">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-content">
+            <h2>Our Story</h2>
+            <p>GraphicShop was founded with a simple mission: to provide exceptional graphic design that helps businesses stand out and connect with their audience.</p>
+            <p>With years of combined experience, our team brings together diverse perspectives and a passion for creativity to deliver designs that make an impact.</p>
+            <p>We believe in the power of thoughtful design to transform brands and create meaningful connections with customers.</p>
+          </div>
+          <div class="about-image">
+            <img src="/images/about-studio.jpg" alt="GraphicShop Studio">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="our-values">
+      <div class="container">
+        <h2 class="section-title">Our Values</h2>
+        <div class="values-grid">
+          <div class="value-card">
+            <div class="value-icon">
+              <i class="fas fa-lightbulb"></i>
+            </div>
+            <h3>Creativity</h3>
+            <p>We push boundaries and think outside the box to create innovative design solutions.</p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-icon">
+              <i class="fas fa-handshake"></i>
+            </div>
+            <h3>Collaboration</h3>
+            <p>We work closely with our clients, treating their goals as our own.</p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-icon">
+              <i class="fas fa-gem"></i>
+            </div>
+            <h3>Quality</h3>
+            <p>We're committed to excellence in every aspect of our work.</p>
+          </div>
+
+          <div class="value-card">
+            <div class="value-icon">
+              <i class="fas fa-heart"></i>
+            </div>
+            <h3>Passion</h3>
+            <p>We love what we do, and it shows in the results we deliver.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="team-section">
+      <div class="container">
+        <h2 class="section-title">Meet Our Team</h2>
+        <div class="team-grid">
+          <% if (team && team.length > 0) { %>
+            <% team.forEach(member => { %>
+              <div class="team-member">
+                <div class="member-image">
+                  <img src="<%= member.imageUrl %>" alt="<%= member.name %>">
+                </div>
+                <div class="member-info">
+                  <h3><%= member.name %></h3>
+                  <p class="member-position"><%= member.position %></p>
+                  <p class="member-bio"><%= member.bio %></p>
+                </div>
+              </div>
+            <% }) %>
+          <% } else { %>
+            <p>Our team information is currently being updated.</p>
+          <% } %>
+        </div>
+      </div>
+    </section>
+
+    <section class="history-section">
+      <div class="container">
+        <h2 class="section-title">Our Journey</h2>
+        <div class="timeline">
+          <% if (history && history.length > 0) { %>
+            <% history.forEach((milestone, index) => { %>
+              <div class="timeline-item <%= index % 2 === 0 ? 'left' : 'right' %>">
+                <div class="timeline-content">
+                  <div class="year"><%= milestone.year %></div>
+                  <h3><%= milestone.title %></h3>
+                  <p><%= milestone.description %></p>
+                </div>
+              </div>
+            <% }) %>
+          <% } %>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="container">
+        <h2>Ready to Start Your Project?</h2>
+        <p>Let's create something amazing together.</p>
+        <a href="/contact" class="btn">Contact Us</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <!-- ...existing code... -->
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.toggle('active');
+    });
+  </script>
+
+  <style>
+    .about-intro {
+      padding: 4rem 0;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .about-content h2 {
+      margin-bottom: 1.5rem;
+    }
+
+    .about-content p {
+      margin-bottom: 1rem;
+    }
+
+    .about-image img {
+      width: 100%;
+      border-radius: var(--card-border-radius);
+      box-shadow: var(--box-shadow);
+    }
+
+    .our-values {
+      background-color: #f9f9f9;
+      padding: 4rem 0;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .value-card {
+      background-color: white;
+      padding: 2rem;
+      border-radius: var(--card-border-radius);
+      box-shadow: var(--box-shadow);
+      text-align: center;
+    }
+
+    .value-icon {
+      width: 60px;
+      height: 60px;
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin: 0 auto 1.5rem;
+    }
+
+    .team-section {
+      padding: 4rem 0;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .team-member {
+      background-color: white;
+      border-radius: var(--card-border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+    }
+
+    .member-image {
+      height: 250px;
+      overflow: hidden;
+    }
+
+    .member-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .member-info {
+      padding: 1.5rem;
+    }
+
+    .member-position {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+
+    .history-section {
+      background-color: #f9f9f9;
+      padding: 4rem 0;
+    }
+
+    .timeline {
+      position: relative;
+      margin: 3rem 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 4px;
+      background-color: var(--primary-color);
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .timeline-item::after {
+      content: '';
+      display: table;
+      clear: both;
+    }
+
+    .timeline-item.left .timeline-content {
+      float: left;
+      padding-right: 30px;
+      text-align: right;
+    }
+
+    .timeline-item.right .timeline-content {
+      float: right;
+      padding-left: 30px;
+    }
+
+    .timeline-content {
+      position: relative;
+      width: 45%;
+      padding: 1.5rem;
+      background-color: white;
+      border-radius: var(--card-border-radius);
+      box-shadow: var(--box-shadow);
+    }
+
+    .timeline-content::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      border: 4px solid var(--primary-color);
+      border-radius: 50%;
+    }
+
+    .timeline-item.left .timeline-content::before {
+      right: -13px;
+    }
+
+    .timeline-item.right .timeline-content::before {
+      left: -13px;
+    }
+
+    .year {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 992px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline::before {
+        left: 20px;
+      }
+
+      .timeline-item.left .timeline-content,
+      .timeline-item.right .timeline-content {
+        float: right;
+        width: calc(100% - 50px);
+        padding-left: 30px;
+        text-align: left;
+      }
+
+      .timeline-item.left .timeline-content::before,
+      .timeline-item.right .timeline-content::before {
+        left: -13px;
+      }
+    }
+  </style>
+</body>
+</html>

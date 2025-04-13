@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50">
+  <style>
+    .text { font-family: 'Arial', sans-serif; font-weight: bold; }
+    .graphic { fill: #3498db; }
+    .shop { fill: #2c3e50; }
+  </style>
+  <text x="10" y="35" class="text graphic">Graphic</text>
+  <text x="90" y="35" class="text shop">Shop</text>
+  <rect x="180" y="10" width="10" height="10" class="graphic" />
+  <rect x="180" y="25" width="10" height="10" class="shop" />
+</svg>

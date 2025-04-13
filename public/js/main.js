@@ -1,83 +1,68 @@
+/**
+ * GraphicShop - Main JavaScript file
+ * Contains common functionality for the entire site
+ */
+
 document.addEventListener('DOMContentLoaded', function() {
   // Mobile menu toggle
   const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
   const navLinks = document.querySelector('.nav-links');
 
-  if (mobileMenuBtn) {
-    mobileMenuBtn.addEventListener('click', function() {
+  if (mobileMenuBtn && navLinks) {
+    mobileMenuBtn.addEventListener('click', () => {
       navLinks.classList.toggle('active');
     });
   }
 
-  // Accordion functionality
-  const accordionHeaders = document.querySelectorAll('.accordion-header');
-
-  accordionHeaders.forEach(header => {
-    header.addEventListener('click', function() {
-      this.classList.toggle('active');
-      const content = this.nextElementSibling;
-
-      if (this.classList.contains('active')) {
-        content.classList.add('active');
-      } else {
-        content.classList.remove('active');
-      }
-    });
-  });
-
-  // Initialize carousels if needed
-  window.initCarousels = function() {
-    // Testimonial slider
-    const testimonialSlider = document.querySelector('.testimonial-slider');
-    if (testimonialSlider && typeof Swiper !== 'undefined') {
-      new Swiper(testimonialSlider, {
-        slidesPerView: 1,
-        spaceBetween: 30,
-        loop: true,
-        autoplay: {
-          delay: 5000,
-        },
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
-        },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
-      });
-    }
-  };
-
-  // Validate forms
-  const forms = document.querySelectorAll('form[data-validate]');
+  // Handle form validations
+  const forms = document.querySelectorAll('form');
 
   forms.forEach(form => {
     form.addEventListener('submit', function(e) {
       let isValid = true;
+
+      // Check required fields
       const requiredFields = form.querySelectorAll('[required]');
 
       requiredFields.forEach(field => {
         if (!field.value.trim()) {
           isValid = false;
-
-          // Add error class
           field.classList.add('error');
 
-          // Create error message if it doesn't exist
-          let errorMsg = field.nextElementSibling;
-          if (!errorMsg || !errorMsg.classList.contains('error-msg')) {
-            errorMsg = document.createElement('div');
-            errorMsg.classList.add('error-msg');
-            errorMsg.textContent = 'This field is required';
-            field.parentNode.insertBefore(errorMsg, field.nextSibling);
+          // Add error message if not already present
+          let errorElement = field.nextElementSibling;
+          if (!errorElement || !errorElement.classList.contains('error-message')) {
+            errorElement = document.createElement('div');
+            errorElement.classList.add('error-message');
+            errorElement.textContent = 'This field is required';
+            field.parentNode.insertBefore(errorElement, field.nextSibling);
           }
         } else {
-          // Remove error class and message
           field.classList.remove('error');
-          const errorMsg = field.nextElementSibling;
-          if (errorMsg && errorMsg.classList.contains('error-msg')) {
-            errorMsg.remove();
+
+          // Remove error message if present
+          const errorElement = field.nextElementSibling;
+          if (errorElement && errorElement.classList.contains('error-message')) {
+            errorElement.remove();
+          }
+        }
+      });
+
+      // Validate email fields
+      const emailFields = form.querySelectorAll('input[type="email"]');
+
+      emailFields.forEach(field => {
+        if (field.value.trim() && !validateEmail(field.value)) {
+          isValid = false;
+          field.classList.add('error');
+
+          // Add error message if not already present
+          let errorElement = field.nextElementSibling;
+          if (!errorElement || !errorElement.classList.contains('error-message')) {
+            errorElement = document.createElement('div');
+            errorElement.classList.add('error-message');
+            errorElement.textContent = 'Please enter a valid email address';
+            field.parentNode.insertBefore(errorElement, field.nextSibling);
           }
         }
       });
@@ -87,32 +72,36 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
-});
 
-// Lazy load images
-document.addEventListener('DOMContentLoaded', function() {
-  const lazyImages = document.querySelectorAll('img[data-src]');
+  // Email validation helper
+  function validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
 
-  if ('IntersectionObserver' in window) {
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          img.src = img.dataset.src;
-          img.removeAttribute('data-src');
-          imageObserver.unobserve(img);
-        }
-      });
-    });
-
-    lazyImages.forEach(img => {
-      imageObserver.observe(img);
+  // Initialize image lazy loading if supported
+  if ('loading' in HTMLImageElement.prototype) {
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    images.forEach(img => {
+      img.src = img.dataset.src;
     });
   } else {
-    // Fallback for browsers without IntersectionObserver
-    lazyImages.forEach(img => {
-      img.src = img.dataset.src;
-      img.removeAttribute('data-src');
+    // Fallback for browsers that don't support lazy loading
+    const script = document.createElement('script');
+    script.src = '/js/lazysizes.min.js';
+    document.body.appendChild(script);
+  }
+
+  // Add tracking for form submissions
+  const contactForm = document.querySelector('.contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', function() {
+      if (typeof gtag === 'function') {
+        gtag('event', 'form_submission', {
+          'event_category': 'Contact',
+          'event_label': 'Contact Form'
+        });
+      }
     });
   }
 });
